@@ -7,19 +7,17 @@
 namespace Pentagon.Extensions.Localization
 {
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Resources;
+    using Interfaces;
     using Microsoft.Extensions.Localization;
 
     public class CultureCacheStringLocalizer : IStringLocalizer
     {
-        readonly ICultureCacheManager _cultureCacheManager;
-        readonly ConcurrentDictionary<string, object> _missingManifestCache = new ConcurrentDictionary<string, object>();
+        readonly ILocalizationCache _cultureCacheManager;
 
-        public CultureCacheStringLocalizer(ICultureCacheManager cultureCacheManager)
+        public CultureCacheStringLocalizer(ILocalizationCache cultureCacheManager)
         {
             _cultureCacheManager = cultureCacheManager;
         }
@@ -58,7 +56,8 @@ namespace Pentagon.Extensions.Localization
         /// <summary> Creates a new <see cref="CultureCacheStringLocalizer" /> for a specific <see cref="CultureInfo" />. </summary>
         /// <param name="culture"> The <see cref="CultureInfo" /> to use. </param>
         /// <returns> A culture-specific <see cref="CultureCacheStringLocalizer" />. </returns>
-        public IStringLocalizer WithCulture(CultureInfo culture) => new CultureCacheStringLocalizer(_cultureCacheManager) {Culture = culture};
+        public IStringLocalizer WithCulture(CultureInfo culture)
+            => new CultureCacheStringLocalizer(_cultureCacheManager) {Culture = culture};
 
         /// <inheritdoc />
         public virtual IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures) =>
@@ -73,9 +72,9 @@ namespace Pentagon.Extensions.Localization
             if (culture == null)
                 throw new ArgumentNullException(nameof(culture));
 
-            var cache = _cultureCacheManager.GetCache(culture);
+            var cache = _cultureCacheManager.GetAllAsync(culture.Name).Result;
 
-            var resourceNames = cache.Resources.Select(a => a.Key);
+            var resourceNames = cache.Select(a => a.Key);
 
             foreach (var name in resourceNames)
             {
@@ -93,25 +92,7 @@ namespace Pentagon.Extensions.Localization
             if (culture == null)
                 culture = Culture;
 
-            var cache = _cultureCacheManager.GetCache(culture);
-
-            if (!cache.IsLoaded)
-                throw new Exception(); // TODO
-
-            var cacheKey = $"name={name}&culture={culture.Name}";
-
-            if (_missingManifestCache.ContainsKey(cacheKey))
-                return null;
-
-            try
-            {
-                return cache.Resources[name];
-            }
-            catch (MissingManifestResourceException)
-            {
-                _missingManifestCache.TryAdd(cacheKey, null);
-                return null;
-            }
+            return _cultureCacheManager.WithCulture(culture)[name];
         }
     }
 }

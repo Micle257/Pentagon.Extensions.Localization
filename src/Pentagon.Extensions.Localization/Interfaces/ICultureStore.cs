@@ -4,20 +4,18 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
+namespace Pentagon.Extensions.Localization.Interfaces
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Threading.Tasks;
-    using Entities;
 
     public interface ICultureStore
     {
-        Task<CultureResourceEntity> GetOneAsync(string cultureName, string key);
+        Task<KeyValuePair<string, string>> GetResourceAsync(string cultureName, string key);
 
-        Task<IEnumerable<CultureResourceEntity>> GetAllAsync(string cultureName);
+        Task<IReadOnlyDictionary<string, string>> GetAllResourcesAsync(string cultureName);
 
-        Task<IEnumerable<CultureEntity>> GetCulturesAsync();
-
-        Task<CultureEntity> GetCultureAsync(string name);
+        Task<IReadOnlyList<CultureInfo>> GetAvailableCulturesAsync();
     }
 }

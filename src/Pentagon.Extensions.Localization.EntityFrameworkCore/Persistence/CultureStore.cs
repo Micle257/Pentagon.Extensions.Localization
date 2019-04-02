@@ -8,14 +8,15 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
     using Entities;
-    using EntityFrameworkCore.Specifications;
+    using Interfaces;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
-    public class CultureStore : ICultureStore
+    public class CultureStore : ICultureStore, ICultureRepository
     {
         readonly ILogger<CultureStore> _logger;
         readonly ICultureApplicationContext _applicationContext;
@@ -32,22 +33,18 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         {
             _logger.LogDebug($"Retrieving culture resource for culture={culture} and key={key}.");
 
-            var spec = new GetOneSpecification<CultureResourceEntity>(r => r.Key == key && r.Culture.Name == culture && !r.DeletedFlag);
-
-            spec.AddConfiguration(q => q.Include(a => a.Culture));
-
             try
             {
-                var resource = await _applicationContext.CultureResources.GetOneAsync(spec);
+                var resource = await _applicationContext.CultureResources
+                                                        .Include(a => a.Culture)
+                                                        .FirstOrDefaultAsync(r => r.Key == key && r.Culture.Name == culture);
 
-                if (resource == null)
-                {
-                    _logger.LogWarning($"No resource found for culture={culture} and key={key}.");
+                if (resource != null)
+                    return resource;
 
-                    return null;
-                }
+                _logger.LogWarning($"No resource found for culture={culture} and key={key}.");
 
-                return resource;
+                return null;
             }
             catch (Exception e)
             {
@@ -57,29 +54,23 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<CultureResourceEntity>> GetAllAsync(string culture)
+        public async Task<IReadOnlyList<CultureResourceEntity>> GetAllAsync(string culture)
         {
             _logger.LogDebug($"Retrieving all culture resources for culture={culture}.");
 
-            var spec = new GetManySpecification<CultureResourceEntity>();
-
-            spec.Filters.Add(r => r.Culture.Name == null || r.Culture.Name == culture);
-            spec.Filters.Add(r => !r.DeletedFlag);
-
-            spec.AddConfiguration(q => q.Include(a => a.Culture));
-
             try
             {
-                var resource = await _applicationContext.CultureResources.GetManyAsync(spec);
+                var resource = await _applicationContext.CultureResources
+                                                        .Include(a => a.Culture)
+                                                        .Where(r => r.Culture.Name == null || r.Culture.Name == culture)
+                                                        .ToListAsync();
 
-                if (resource?.Any(a => a.Culture.Name != null) != true)
-                {
-                    _logger.LogWarning($"No resources found for culture={culture}.");
+                if (resource?.Any(a => a.Culture.Name != null) == true)
+                    return resource;
 
-                    return Array.Empty<CultureResourceEntity>();
-                }
+                _logger.LogWarning($"No resources found for culture={culture}.");
 
-                return resource;
+                return Array.Empty<CultureResourceEntity>();
             }
             catch (Exception e)
             {
@@ -89,27 +80,39 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         }
 
         /// <inheritdoc />
-        public Task<IEnumerable<CultureEntity>> GetCulturesAsync()
+        public async Task<IReadOnlyList<CultureEntity>> GetCulturesAsync()
         {
-            var spec = new GetManySpecification<CultureEntity>();
-
-            spec.AddFilter(a => a.ActiveFlag);
-
-            spec.AddConfiguration(q => q.Include(a => a.Resources));
-
-            return _applicationContext.Cultures.GetManyAsync(spec);
+            return await _applicationContext.Cultures.Include(a => a.Resources).Where(a => a.ActiveFlag).ToListAsync();
         }
 
         public Task<CultureEntity> GetCultureAsync(string name)
         {
-            var spec = new GetOneSpecification<CultureEntity>();
+            return _applicationContext.Cultures.Include(a => a.Resources)
+                                      .FirstOrDefaultAsync(a => a.Name == name && a.ActiveFlag);
+        }
 
-            spec.AddFilter(a => a.Name == name);
-            spec.AddFilter(a => a.ActiveFlag);
+        /// <inheritdoc />
+        public async Task<KeyValuePair<string, string>> GetResourceAsync(string cultureName, string key)
+        {
+            var res = await GetOneAsync(cultureName, key);
 
-            spec.AddConfiguration(q => q.Include(a => a.Resources));
+            return new KeyValuePair<string, string>(res.Key, res.Value);
+        }
 
-            return _applicationContext.Cultures.GetOneAsync(spec);
+        /// <inheritdoc />
+        public async Task<IReadOnlyDictionary<string, string>> GetAllResourcesAsync(string cultureName)
+        {
+            var cultureResourceEntities = await GetAllAsync(cultureName);
+
+            return cultureResourceEntities.ToDictionary(a => a.Key, a => a.Value);
+        }
+
+        /// <inheritdoc />
+        public async Task<IReadOnlyList<CultureInfo>> GetAvailableCulturesAsync()
+        {
+            var cultures = await GetCulturesAsync();
+
+            return cultures.Select(a => CultureInfo.GetCultureInfo(a.Name)).ToList();
         }
     }
 }

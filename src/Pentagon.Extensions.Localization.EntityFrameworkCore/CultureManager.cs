@@ -10,16 +10,17 @@ namespace Pentagon.Extensions.Localization.EntityFramework
     using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
+    using Interfaces;
     using Microsoft.Extensions.Logging;
     using Persistence;
 
     public class CultureManager : ICultureManager
     {
         readonly ILogger<CultureManager> _logger;
-        readonly ICultureStore _cultureStore;
+        readonly ICultureRepository _cultureStore;
 
         public CultureManager(ILogger<CultureManager> logger,
-                              ICultureStore cultureStore)
+                              ICultureRepository cultureStore)
         {
             _logger = logger;
             _cultureStore = cultureStore;

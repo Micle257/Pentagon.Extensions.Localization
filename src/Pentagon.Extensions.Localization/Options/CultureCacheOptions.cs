@@ -6,12 +6,8 @@
 
 namespace Pentagon.Extensions.Localization.Options
 {
-    using System;
-
     public class CultureCacheOptions
     {
-        public bool AutoReload { get; set; } = true;
-
-        public TimeSpan? CacheLifespan { get; set; } = null;
+        public int CacheLifespanInSeconds { get; set; } = 8 * 60 * 60;
     }
 }

@@ -22,7 +22,6 @@ namespace Pentagon.Extensions.Localization
         readonly ICultureStore _store;
         readonly IMemoryCache _cache;
         readonly MemoryCacheEntryOptions _cacheOptions;
-        readonly CultureCacheOptions _options;
 
         CultureInfo _culture;
 
@@ -33,9 +32,9 @@ namespace Pentagon.Extensions.Localization
             _store = store;
             _cache = cache;
 
-            _options = optionsSnapshot?.Value ?? new CultureCacheOptions();
+            var options = optionsSnapshot?.Value ?? new CultureCacheOptions();
             _cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(_options.CacheLifespanInSeconds));
+                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(options.CacheLifespanInSeconds));
         }
 
         /// <inheritdoc />

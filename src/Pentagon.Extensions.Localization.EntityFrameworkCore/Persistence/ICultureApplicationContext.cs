@@ -8,7 +8,6 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
 {
     using Entities;
     using EntityFrameworkCore.Abstractions;
-    using EntityFrameworkCore.Abstractions.Repositories;
     using Microsoft.EntityFrameworkCore;
 
     public interface ICultureApplicationContext : IApplicationContext

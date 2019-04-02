@@ -12,12 +12,10 @@ namespace Pentagon.Extensions.Localization.EntityFramework
 
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddEFCultureLocalization(this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
-        {
-            return services.AddCultureCache(serviceLifetime)
-                           .AddEFCultureStore(serviceLifetime)
-                           .AddEFCultureManager(serviceLifetime);
-        }
+        public static IServiceCollection AddEFCultureLocalization(this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) =>
+                services.AddCultureCache(serviceLifetime)
+                        .AddEFCultureStore(serviceLifetime)
+                        .AddEFCultureManager(serviceLifetime);
 
         public static IServiceCollection AddEFCultureStore(this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         {

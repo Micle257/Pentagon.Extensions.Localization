@@ -12,9 +12,9 @@ namespace Pentagon.Extensions.Localization.Interfaces
 
     public interface ICultureStore
     {
-        Task<KeyValuePair<string,string>> GetResourceAsync(string cultureName, string key);
+        Task<KeyValuePair<string, string>> GetResourceAsync(string cultureName, string key);
 
-        Task<IReadOnlyDictionary<string,string>> GetAllResourcesAsync(string cultureName);
+        Task<IReadOnlyDictionary<string, string>> GetAllResourcesAsync(string cultureName);
 
         Task<IReadOnlyList<CultureInfo>> GetAvailableCulturesAsync();
     }

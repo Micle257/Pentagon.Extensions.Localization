@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Extensions.Localization
+namespace Pentagon.Extensions.Localization.Interfaces
 {
     using System.Collections.Generic;
     using System.Globalization;

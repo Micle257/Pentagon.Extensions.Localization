@@ -7,11 +7,9 @@
 namespace Pentagon.Extensions.Localization
 {
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Resources;
     using Interfaces;
     using Microsoft.Extensions.Localization;
 
@@ -58,7 +56,7 @@ namespace Pentagon.Extensions.Localization
         /// <summary> Creates a new <see cref="CultureCacheStringLocalizer" /> for a specific <see cref="CultureInfo" />. </summary>
         /// <param name="culture"> The <see cref="CultureInfo" /> to use. </param>
         /// <returns> A culture-specific <see cref="CultureCacheStringLocalizer" />. </returns>
-        public IStringLocalizer WithCulture(CultureInfo culture) 
+        public IStringLocalizer WithCulture(CultureInfo culture)
             => new CultureCacheStringLocalizer(_cultureCacheManager) {Culture = culture};
 
         /// <inheritdoc />
@@ -93,7 +91,7 @@ namespace Pentagon.Extensions.Localization
 
             if (culture == null)
                 culture = Culture;
-            
+
             return _cultureCacheManager.WithCulture(culture)[name];
         }
     }

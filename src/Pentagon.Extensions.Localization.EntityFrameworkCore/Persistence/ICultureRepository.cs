@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------
-//  <copyright file="ICultureStore.cs">
+//  <copyright file="ICultureRepository.cs">
 //   Copyright (c) Michal Pokorný. All Rights Reserved.
 //  </copyright>
 // -----------------------------------------------------------------------

@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-//  <copyright file="ActualityStoreCache.cs">
-//   Copyright (c) Smartdata s. r. o. All Rights Reserved.
+//  <copyright file="StoreCache.cs">
+//   Copyright (c) Michal Pokorný. All Rights Reserved.
 //  </copyright>
 // -----------------------------------------------------------------------
 
@@ -14,10 +14,9 @@ namespace Pentagon.Extensions.Localization
 
     public abstract class StoreCache<TEntity> : IStoreCache<TEntity>
     {
-        string CacheKey = typeof(TEntity).Name;
-        
         readonly IMemoryCache _cache;
         readonly MemoryCacheEntryOptions _cacheOptions;
+        readonly string _cacheKey = typeof(TEntity).Name;
 
         protected StoreCache(IMemoryCache cache)
         {
@@ -30,7 +29,7 @@ namespace Pentagon.Extensions.Localization
         /// <inheritdoc />
         public async Task<IReadOnlyList<TEntity>> GetCachedAsync()
         {
-            var value = _cache.Get<IReadOnlyList<TEntity>>(CacheKey) ?? await ReloadAsync();
+            var value = _cache.Get<IReadOnlyList<TEntity>>(_cacheKey) ?? await ReloadAsync();
 
             return value;
         }
@@ -40,7 +39,7 @@ namespace Pentagon.Extensions.Localization
         {
             var value = await GetDataAsync();
 
-            _cache.Set(CacheKey, value, _cacheOptions);
+            _cache.Set(_cacheKey, value, _cacheOptions);
 
             return value;
         }

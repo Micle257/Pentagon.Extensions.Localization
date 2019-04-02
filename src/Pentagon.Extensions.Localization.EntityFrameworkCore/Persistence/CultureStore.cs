@@ -12,8 +12,6 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
     using System.Linq;
     using System.Threading.Tasks;
     using Entities;
-    using EntityFrameworkCore.Extensions;
-    using EntityFrameworkCore.Specifications;
     using Interfaces;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
@@ -34,7 +32,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         public async Task<CultureResourceEntity> GetOneAsync(string culture, string key)
         {
             _logger.LogDebug($"Retrieving culture resource for culture={culture} and key={key}.");
-            
+
             try
             {
                 var resource = await _applicationContext.CultureResources
@@ -47,7 +45,6 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
                 _logger.LogWarning($"No resource found for culture={culture} and key={key}.");
 
                 return null;
-
             }
             catch (Exception e)
             {
@@ -60,7 +57,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         public async Task<IReadOnlyList<CultureResourceEntity>> GetAllAsync(string culture)
         {
             _logger.LogDebug($"Retrieving all culture resources for culture={culture}.");
-            
+
             try
             {
                 var resource = await _applicationContext.CultureResources
@@ -74,7 +71,6 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
                 _logger.LogWarning($"No resources found for culture={culture}.");
 
                 return Array.Empty<CultureResourceEntity>();
-
             }
             catch (Exception e)
             {
@@ -106,9 +102,9 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         /// <inheritdoc />
         public async Task<IReadOnlyDictionary<string, string>> GetAllResourcesAsync(string cultureName)
         {
-           var cultureResourceEntities=  await GetAllAsync(cultureName);
+            var cultureResourceEntities = await GetAllAsync(cultureName);
 
-           return cultureResourceEntities.ToDictionary(a => a.Key, a => a.Value);
+            return cultureResourceEntities.ToDictionary(a => a.Key, a => a.Value);
         }
 
         /// <inheritdoc />

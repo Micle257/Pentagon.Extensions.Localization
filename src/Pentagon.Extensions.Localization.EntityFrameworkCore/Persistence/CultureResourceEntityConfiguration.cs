@@ -35,7 +35,6 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
              .IsRequired();
 
             b.HasIndex(a => new {a.CultureId, a.Key})
-             .HasFilter($"[{nameof(CultureResourceEntity.DeletedFlag)}] = 0")
              .IsUnique();
 
             b.HasOne(a => a.Culture)

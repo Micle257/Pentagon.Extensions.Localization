@@ -7,12 +7,14 @@
 namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
 {
     using Entities;
+    using EntityFrameworkCore.Abstractions;
     using EntityFrameworkCore.Abstractions.Repositories;
+    using Microsoft.EntityFrameworkCore;
 
-    public interface ICultureApplicationContext
+    public interface ICultureApplicationContext : IApplicationContext
     {
-        IRepository<CultureEntity> Cultures { get; }
+        DbSet<CultureEntity> Cultures { get; }
 
-        IRepository<CultureResourceEntity> CultureResources { get; }
+        DbSet<CultureResourceEntity> CultureResources { get; }
     }
 }

@@ -10,13 +10,13 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
     using System.Threading.Tasks;
     using Entities;
 
-    public interface ICultureStore
+    public interface ICultureRepository
     {
         Task<CultureResourceEntity> GetOneAsync(string cultureName, string key);
 
-        Task<IEnumerable<CultureResourceEntity>> GetAllAsync(string cultureName);
+        Task<IReadOnlyList<CultureResourceEntity>> GetAllAsync(string cultureName);
 
-        Task<IEnumerable<CultureEntity>> GetCulturesAsync();
+        Task<IReadOnlyList<CultureEntity>> GetCulturesAsync();
 
         Task<CultureEntity> GetCultureAsync(string name);
     }

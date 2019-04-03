@@ -114,5 +114,15 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
 
             return cultures.Select(a => CultureInfo.GetCultureInfo(a.Name)).ToList();
         }
+
+        /// <inheritdoc />
+        async Task<CultureInfo> ICultureStore.GetCultureAsync(string name)
+        {
+            var culture = await GetCultureAsync(name);
+
+            var info = CultureInfo.GetCultureInfo(culture.Name);
+
+            return info;
+        }
     }
 }

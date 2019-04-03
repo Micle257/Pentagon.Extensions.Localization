@@ -16,6 +16,8 @@ namespace Pentagon.Extensions.Localization
             services.AddMemoryCache()
                     .AddOptions();
 
+            services.AddTransient<ICultureContext, CultureContext>();
+
             services.Add(ServiceDescriptor.Describe(typeof(ILocalizationCache), typeof(LocalizationCache), serviceLifetime));
 
             return services;

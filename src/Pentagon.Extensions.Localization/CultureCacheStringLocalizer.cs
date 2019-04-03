@@ -12,7 +12,7 @@ namespace Pentagon.Extensions.Localization
     using System.Linq;
     using Interfaces;
     using Microsoft.Extensions.Localization;
-
+    
     public class CultureCacheStringLocalizer : IStringLocalizer
     {
         readonly ILocalizationCache _cultureCacheManager;

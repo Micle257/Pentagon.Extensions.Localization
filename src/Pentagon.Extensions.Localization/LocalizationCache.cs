@@ -21,20 +21,25 @@ namespace Pentagon.Extensions.Localization
 
         readonly ICultureStore _store;
         readonly IMemoryCache _cache;
+        readonly ICultureContext _context;
         readonly MemoryCacheEntryOptions _cacheOptions;
 
         CultureInfo _culture;
 
         public LocalizationCache(ICultureStore store,
                                  IMemoryCache cache,
+                                 ICultureContext context,
                                  IOptionsSnapshot<CultureCacheOptions> optionsSnapshot)
         {
             _store = store;
             _cache = cache;
+            _context = context;
 
             var options = optionsSnapshot?.Value ?? new CultureCacheOptions();
             _cacheOptions = new MemoryCacheEntryOptions()
                     .SetAbsoluteExpiration(TimeSpan.FromSeconds(options.CacheLifespanInSeconds));
+
+            _culture = context.UICulture;
         }
 
         /// <inheritdoc />

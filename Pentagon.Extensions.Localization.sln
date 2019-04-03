@@ -13,11 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNetCore.Locali
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pentagon.Extensions.Localization", "src\Pentagon.Extensions.Localization\Pentagon.Extensions.Localization.csproj", "{08901ED2-6D06-471C-A3EE-73772DF419D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pentagon.Extensions.Localization.Json", "src\Pentagon.Extensions.Localization.Json\Pentagon.Extensions.Localization.Json.csproj", "{7C96B9E7-F710-4608-BEC7-CA03DCC5BE49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pentagon.Extensions.Localization.Json", "src\Pentagon.Extensions.Localization.Json\Pentagon.Extensions.Localization.Json.csproj", "{7C96B9E7-F710-4608-BEC7-CA03DCC5BE49}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{224BE50E-E447-4FF0-B4E6-9321CDEEBA0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pentagon.Extensions.Localization.Json.Tests", "test\Pentagon.Extensions.Localization.Json.Tests\Pentagon.Extensions.Localization.Json.Tests.csproj", "{D8116756-B806-4053-823B-D502D774EA69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pentagon.Extensions.Localization.Json.Tests", "test\Pentagon.Extensions.Localization.Json.Tests\Pentagon.Extensions.Localization.Json.Tests.csproj", "{D8116756-B806-4053-823B-D502D774EA69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

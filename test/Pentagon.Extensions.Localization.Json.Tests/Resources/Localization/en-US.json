@@ -1,0 +1,14 @@
+{
+  "culture": "en-US",
+  "format": "keyValue",
+  "resources": [
+    {
+      "key": "first",
+      "value": "First"
+    },
+    {
+      "key": "second",
+      "value": "Second"
+    }
+  ] 
+}

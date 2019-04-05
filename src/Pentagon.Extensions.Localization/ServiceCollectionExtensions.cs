@@ -11,12 +11,14 @@ namespace Pentagon.Extensions.Localization
 
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddCultureCache(this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+        public static IServiceCollection AddCultureCache(this IServiceCollection services)
         {
             services.AddMemoryCache()
                     .AddOptions();
 
-            services.Add(ServiceDescriptor.Describe(typeof(ILocalizationCache), typeof(LocalizationCache), serviceLifetime));
+            services.AddScoped<ICultureContext, CultureContext>();
+
+            services.Add(ServiceDescriptor.Describe(typeof(ILocalizationCache), typeof(LocalizationCache), ServiceLifetime.Transient));
 
             return services;
         }

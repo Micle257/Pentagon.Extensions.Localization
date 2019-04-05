@@ -1,0 +1,14 @@
+{
+  "culture": "cs-CZ",
+  "format": "keyValue",
+  "resources": [
+    {
+      "key": "first",
+      "value": "Prvni"
+    },
+    {
+      "key": "second",
+      "value": "Druhy"
+    }
+  ] 
+}

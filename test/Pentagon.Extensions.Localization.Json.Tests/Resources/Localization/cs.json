@@ -1,0 +1,17 @@
+{
+  "format": "keyValue",
+  "resources": [
+    {
+      "key": "first",
+      "value": "Prvni1"
+    },
+    {
+      "key": "second",
+      "value": "Druhy2"
+    },
+    {
+      "key": "third",
+      "value": "3. "
+    }
+  ] 
+}

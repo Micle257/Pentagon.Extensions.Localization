@@ -17,5 +17,7 @@ namespace Pentagon.Extensions.Localization.Interfaces
         Task<IReadOnlyDictionary<string, string>> GetAllResourcesAsync(string cultureName);
 
         Task<IReadOnlyList<CultureInfo>> GetAvailableCulturesAsync();
+
+        Task<CultureInfo> GetCultureAsync(string name);
     }
 }

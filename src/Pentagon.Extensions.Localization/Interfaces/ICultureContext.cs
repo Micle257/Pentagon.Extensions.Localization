@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------
-//  <copyright file="ICultureManager.cs">
+//  <copyright file="ICultureContext.cs">
 //   Copyright (c) Michal Pokorný. All Rights Reserved.
 //  </copyright>
 // -----------------------------------------------------------------------
@@ -8,12 +8,14 @@ namespace Pentagon.Extensions.Localization.Interfaces
 {
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Threading.Tasks;
+    using JetBrains.Annotations;
 
-    public interface ICultureManager
+    public interface ICultureContext
     {
-        Task<IReadOnlyDictionary<string, string>> GetResourcesAsync(CultureInfo culture, bool includeParentResources = true);
+        CultureInfo UICulture { get; }
 
-        Task<CultureObject> GetCultureAsync(CultureInfo culture);
+        CultureInfo Culture { get; }
+        
+        void SetLanguage([NotNull] string uiCulture, string culture = null);
     }
 }

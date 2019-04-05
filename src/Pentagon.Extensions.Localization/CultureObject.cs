@@ -14,7 +14,7 @@ namespace Pentagon.Extensions.Localization
 
         public string Name { get; set; }
 
-        public IDictionary<string, string> Resources { get; set; } = new Dictionary<string, string>();
+        public IReadOnlyDictionary<string, string> Resources { get; set; } = new Dictionary<string, string>();
 
         public CultureObject ParentCulture { get; set; }
     }

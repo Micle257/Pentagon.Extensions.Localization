@@ -11,6 +11,7 @@ namespace Pentagon.Extensions.Localization
     using System.Globalization;
     using System.Threading.Tasks;
     using Interfaces;
+    using JetBrains.Annotations;
     using Microsoft.Extensions.Caching.Memory;
     using Microsoft.Extensions.Options;
     using Options;
@@ -43,11 +44,34 @@ namespace Pentagon.Extensions.Localization
         }
 
         /// <inheritdoc />
-        public string this[string key]
+        public string this[[NotNull] string key]
         {
             get
             {
+                if (key == null)
+                    throw new ArgumentNullException(nameof(key));
+
                 var value = _cache.Get<string>(GetKeyName(key)) ?? ForceCacheUpdate(key);
+
+                return value;
+            }
+        }
+
+        /// <inheritdoc />
+        public string this[[NotNull] string key, [NotNull] params object[] formatArguments]
+        {
+            get
+            {
+                if (key == null)
+                    throw new ArgumentNullException(nameof(key));
+
+                if (formatArguments == null)
+                    throw new ArgumentNullException(nameof(formatArguments));
+
+                var value = this[key];
+
+                if (value != null)
+                    value = string.Format(value, formatArguments);
 
                 return value;
             }

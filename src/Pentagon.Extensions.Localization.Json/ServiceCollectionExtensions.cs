@@ -13,27 +13,27 @@ namespace Pentagon.Extensions.Localization.EntityFramework
 
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddJsonCultureLocalization(this IServiceCollection services, Action<JsonLocalizationOptions> configure = null, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+        public static IServiceCollection AddJsonCultureLocalization(this IServiceCollection services, Action<JsonLocalizationOptions> configure = null)
         {
             services.AddOptions();
 
             services.Configure<JsonLocalizationOptions>(configure);
 
-            return services.AddCultureCache(serviceLifetime)
-                           .AddJsonCultureStore(serviceLifetime)
-                           .AddJsonCultureManager(serviceLifetime);
+            return services.AddCultureCache()
+                           .AddJsonCultureStore()
+                           .AddJsonCultureManager();
         }
 
-        public static IServiceCollection AddJsonCultureStore(this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+        public static IServiceCollection AddJsonCultureStore(this IServiceCollection services)
         {
-            services.Add(ServiceDescriptor.Describe(typeof(ICultureStore), typeof(CultureStore), serviceLifetime));
+            services.Add(ServiceDescriptor.Describe(typeof(ICultureStore), typeof(CultureStore), ServiceLifetime.Scoped));
 
             return services;
         }
 
-        public static IServiceCollection AddJsonCultureManager(this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+        public static IServiceCollection AddJsonCultureManager(this IServiceCollection services)
         {
-            services.Add(ServiceDescriptor.Describe(typeof(ICultureManager), typeof(CultureManager), serviceLifetime));
+            services.Add(ServiceDescriptor.Describe(typeof(ICultureManager), typeof(CultureManager), ServiceLifetime.Scoped));
 
             return services;
         }

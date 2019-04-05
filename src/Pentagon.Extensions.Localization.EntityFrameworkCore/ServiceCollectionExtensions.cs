@@ -13,7 +13,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddEFCultureLocalization(this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) =>
-                services.AddCultureCache(serviceLifetime)
+                services.AddCultureCache()
                         .AddEFCultureStore(serviceLifetime)
                         .AddEFCultureManager(serviceLifetime);
 

@@ -12,7 +12,7 @@ namespace Pentagon.Extensions.Localization.Interfaces
 
     public interface ICultureManager
     {
-        Task<IDictionary<string, string>> GetResourcesAsync(CultureInfo culture);
+        Task<IReadOnlyDictionary<string, string>> GetResourcesAsync(CultureInfo culture, bool includeParentResources = true);
 
         Task<CultureObject> GetCultureAsync(CultureInfo culture);
     }

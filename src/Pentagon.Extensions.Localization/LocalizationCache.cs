@@ -16,29 +16,33 @@ namespace Pentagon.Extensions.Localization
     using Microsoft.Extensions.Options;
     using Options;
 
-    class LocalizationCache : ILocalizationCache
+    public class LocalizationCache : ILocalizationCache
     {
         const string CacheKeyPrefix = "LOCALIZATION_";
 
         readonly ICultureStore _store;
         readonly IMemoryCache _cache;
         readonly ICultureContext _context;
+        readonly ICultureManager _manager;
         readonly MemoryCacheEntryOptions _cacheOptions;
 
         CultureInfo _culture;
+        readonly CultureCacheOptions _options;
 
         public LocalizationCache(ICultureStore store,
                                  IMemoryCache cache,
                                  ICultureContext context,
+                                 ICultureManager manager,
                                  IOptionsSnapshot<CultureCacheOptions> optionsSnapshot)
         {
             _store = store;
             _cache = cache;
             _context = context;
+            _manager = manager;
 
-            var options = optionsSnapshot?.Value ?? new CultureCacheOptions();
+            _options = optionsSnapshot?.Value ?? new CultureCacheOptions();
             _cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(options.CacheLifespanInSeconds));
+                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(_options.CacheLifespanInSeconds));
 
             _culture = context.UICulture;
         }
@@ -79,20 +83,39 @@ namespace Pentagon.Extensions.Localization
 
         public string ForceCacheUpdate(string key)
         {
-            var value = _store.GetResourceAsync(_culture.Name, key)?.Result.Value;
+            if (_options.IncludeParentResources)
+            {
+                var all = _manager.GetResourcesAsync(_culture).Result;
 
-            if (value == null)
-                return null;
+                foreach (var pair in all)
+                {
+                    _cache.Set(GetKeyName(pair.Key), pair.Value, _cacheOptions);
+                }
 
-            _cache.Set(GetKeyName(key), _cacheOptions);
+                return _cache.Get<string>(GetKeyName(key));
+            }
+            else
+            {
+                var value = _store.GetResourceAsync(_culture.Name, key)?.Result.Value;
 
-            return value;
+                if (value == null)
+                    return null;
+
+                _cache.Set(GetKeyName(key),value , _cacheOptions);
+
+                return value;
+            }
         }
 
         /// <inheritdoc />
         public async Task<IDictionary<string, string>> GetAllAsync(string cultureName, Func<string, bool> keyPredicate = null)
         {
-            var all = await _store.GetAllResourcesAsync(cultureName);
+            if (!CultureHelpers.TryParse(cultureName, out var culture))
+            {
+                throw new FormatException($"Culture is invalid '{cultureName}'.");
+            }
+
+            var all = await _manager.GetResourcesAsync(culture, _options.IncludeParentResources);
 
             var result = new Dictionary<string, string>();
 

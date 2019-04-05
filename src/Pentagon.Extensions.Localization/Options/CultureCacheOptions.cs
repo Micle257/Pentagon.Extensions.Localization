@@ -8,6 +8,8 @@ namespace Pentagon.Extensions.Localization.Options
 {
     public class CultureCacheOptions
     {
+        public bool IncludeParentResources { get; set; } = true;
+
         public int CacheLifespanInSeconds { get; set; } = 8 * 60 * 60;
     }
 }

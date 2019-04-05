@@ -31,6 +31,7 @@ namespace Pentagon.Extensions.Localization {
 
             allNames.UnionWith(cultureInfos.Select(x => x?.TwoLetterISOLanguageName));
             allNames.UnionWith(cultureInfos.Select(x => x?.Name));
+            allNames.UnionWith(new string[]{null});
 
             return allNames;
         }
@@ -39,7 +40,7 @@ namespace Pentagon.Extensions.Localization {
         {
             if (Exists(culture))
             {
-                cultureInfo = CultureInfo.GetCultureInfo(culture);
+                cultureInfo = culture == null ? CultureInfo.InvariantCulture : CultureInfo.GetCultureInfo(culture);
                 return true;
             }
 

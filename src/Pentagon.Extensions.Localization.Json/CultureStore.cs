@@ -39,13 +39,25 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
 
         IReadOnlyCollection<RootObjectJson> Jsons => _jsons ?? (_jsons = GetDeserializedJsonObjects());
 
-        public IEnumerable<string> GetFilePaths()
+        public IEnumerable<(string Name, string Path)> GetFilePaths()
         {
             var baseDirectory = AppDomain.CurrentDomain;
 
             var dir = Path.Combine(baseDirectory.BaseDirectory, _options.ResourceFolder);
 
-            return Directory.EnumerateFileSystemEntries(dir);
+            var ss = Directory.GetFiles(dir);
+
+            foreach (var s in ss)
+            {
+                var name = s.Split(Path.DirectorySeparatorChar).LastOrDefault();
+
+                if (!name.EndsWith(".json"))
+                    continue;
+
+                var pureName = name.Remove(name.IndexOf(".json", StringComparison.Ordinal));
+
+                yield return (pureName, s);
+            }
         }
 
         public IReadOnlyCollection<RootObjectJson> GetDeserializedJsonObjects()
@@ -56,13 +68,28 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
 
             foreach (var file in files)
             {
-                var text = File.ReadAllText(file);
+                var text = File.ReadAllText(file.Path);
 
                 var json = JsonHelpers.Deserialize<RootObjectJson>(text);
 
+                if (json.Culture == null && CultureHelpers.Exists(file.Name))
+                    json.Culture = file.Name;
+
+                if (!CultureHelpers.Exists(json.Culture))
+                {
+                    _logger.LogWarning($"Unknown culture name: {json.Culture}.");
+                    continue;
+                }
+
+                if (result.Any(a => a.Culture == json.Culture))
+                {
+                    _logger.LogWarning($"Culture with the same name already exists: {json.Culture}.");
+                    continue;
+                }
+
                 result.Add(json);
             }
-
+            
             return result;
         }
 
@@ -90,17 +117,40 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         /// <inheritdoc />
         public Task<IReadOnlyList<CultureInfo>> GetAvailableCulturesAsync()
         {
+            var result = new List<CultureInfo>();
+
             var res = Jsons.Select(a => a.Culture);
 
-            return Task.FromResult<IReadOnlyList<CultureInfo>>(res.Select(a => CultureInfo.GetCultureInfo(a)).ToList());
+            foreach (var re in res)
+            {
+                if (re == null)
+                {
+                    result.Add(CultureInfo.InvariantCulture);
+                    continue;
+                }
+
+                if (CultureHelpers.Exists(re))
+                    result.Add(CultureInfo.GetCultureInfo(re));
+            }
+
+            return Task.FromResult<IReadOnlyList<CultureInfo>>(result);
         }
 
         /// <inheritdoc />
         public Task<CultureInfo> GetCultureAsync(string name)
         {
-            var res = Jsons.Select(a => a.Culture);
+            var res = Jsons.Select(a => a.Culture)
+                           .Where(a => a == name);
 
-            return Task.FromResult(res.Select(a => CultureInfo.GetCultureInfo(a)).FirstOrDefault());
+            return Task.FromResult(res.Select(GetCultureInfo).FirstOrDefault());
+        }
+
+        CultureInfo GetCultureInfo(string name)
+        {
+            if (name ==null)
+                return CultureInfo.InvariantCulture;
+
+            return CultureInfo.GetCultureInfo(name);
         }
     }
 }

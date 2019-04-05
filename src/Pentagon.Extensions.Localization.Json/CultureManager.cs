@@ -27,15 +27,16 @@ namespace Pentagon.Extensions.Localization.EntityFramework
         }
 
         /// <inheritdoc />
-        public async Task<IDictionary<string, string>> GetResourcesAsync(CultureInfo culture)
+        public async Task<IReadOnlyDictionary<string, string>> GetResourcesAsync(CultureInfo culture, bool includeParentResources)
         {
             _logger.LogDebug($"Retrieving all culture resources for culture={culture}.");
 
             var cultureEntity = await GetCultureAsync(culture);
 
-            var resources = GetResources(cultureEntity);
+            if (includeParentResources)
+                return GetResources(cultureEntity);
 
-            return resources;
+            return cultureEntity.Resources;
         }
 
         /// <inheritdoc />
@@ -57,61 +58,67 @@ namespace Pentagon.Extensions.Localization.EntityFramework
                                         Resources = resources
                                 };
 
-          //  // if culture is country specific
-          //  if (!culture.IsNeutralCulture)
-          //  {
-          //      var neutralCulture = culture.Parent;
-          //
-          //      // Assert: if (!neutralCulture.IsNeutralCulture)
-          //
-          //      var neutralCultureEntity = await _cultureStore.GetCultureAsync(neutralCulture.Name);
-          //
-          //      if (neutralCultureEntity != null)
-          //      {
-          //          resultCulture.ParentCulture = new CultureObject
-          //                                        {
-          //                                                Name = neutralCultureEntity.Name,
-          //                                                Resources = neutralCultureEntity.Resources.ToDictionary(a => a.Key, a => a.Value)
-          //                                        };
-          //
-          //          var invariantCulture = neutralCulture.Parent;
-          //
-          //          // Assert: if (!Equals(invariantCulture, invariantCulture.Parent))
-          //
-          //          var invariantCultureEntity = await _cultureStore.GetCultureAsync(null);
-          //
-          //          if (invariantCultureEntity != null && invariantCultureEntity.Name == null)
-          //          {
-          //              resultCulture.ParentCulture.ParentCulture = new CultureObject
-          //                                                          {
-          //                                                                  Name = invariantCultureEntity.Name,
-          //                                                                  Resources = invariantCultureEntity.Resources.ToDictionary(a => a.Key, a => a.Value)
-          //                                                          };
-          //          }
-          //      }
-          //  }
-          //  else
-          //  {
-          //      var invariantCulture = culture.Parent;
-          //
-          //      // Assert: if (!Equals(invariantCulture, invariantCulture.Parent))
-          //
-          //      var invariantCultureEntity = await _cultureStore.GetCultureAsync(null);
-          //
-          //      if (invariantCultureEntity != null && invariantCultureEntity.Name == null)
-          //      {
-          //          resultCulture.ParentCulture.ParentCulture = new CultureObject
-          //                                                      {
-          //                                                              Name = invariantCultureEntity.Name,
-          //                                                              Resources = invariantCultureEntity.Resources.ToDictionary(a => a.Key, a => a.Value)
-          //                                                      };
-          //      }
-          //  }
+            // if culture is country specific
+            if (!culture.IsNeutralCulture)
+            {
+                var neutralCulture = culture.Parent;
+          
+                // Assert: if (!neutralCulture.IsNeutralCulture)
+          
+                var neutralCultureEntity = await _cultureStore.GetCultureAsync(neutralCulture.Name);
+          
+                if (neutralCultureEntity != null)
+                {
+                    var parentResources = await _cultureStore.GetAllResourcesAsync(neutralCultureEntity.Name);
+
+                    resultCulture.ParentCulture = new CultureObject
+                                                  {
+                                                          Name = neutralCultureEntity.Name,
+                                                          Resources = parentResources
+                    };
+          
+                    var invariantCulture = neutralCulture.Parent;
+          
+                    // Assert: if (!Equals(invariantCulture, invariantCulture.Parent))
+          
+                    var invariantCultureEntity = await _cultureStore.GetCultureAsync(null);
+          
+                    if (invariantCultureEntity != null)
+                    {
+                        var invariantResources = await _cultureStore.GetAllResourcesAsync(null);
+
+                        resultCulture.ParentCulture.ParentCulture = new CultureObject
+                                                                    {
+                                                                            Name = invariantCultureEntity.Name,
+                                                                            Resources = invariantResources
+                        };
+                    }
+                }
+            }
+            else
+            {
+                var invariantCulture = culture.Parent;
+
+                // Assert: if (!Equals(invariantCulture, invariantCulture.Parent))
+
+                var invariantCultureEntity = await _cultureStore.GetCultureAsync(null);
+
+                if (invariantCultureEntity != null)
+                {
+                    var invariantResources = await _cultureStore.GetAllResourcesAsync(null);
+
+                    resultCulture.ParentCulture.ParentCulture = new CultureObject
+                                                                {
+                                                                        Name = invariantCultureEntity.Name,
+                                                                        Resources = invariantResources
+                                                                };
+                }
+            }
 
             return resultCulture;
         }
 
-        IDictionary<string, string> GetResources(CultureObject cultureEntity)
+        IReadOnlyDictionary<string, string> GetResources(CultureObject cultureEntity)
         {
             var resources = cultureEntity.Resources;
 

@@ -27,7 +27,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework
         }
 
         /// <inheritdoc />
-        public async Task<IDictionary<string, string>> GetResourcesAsync(CultureInfo culture)
+        public async Task<IReadOnlyDictionary<string, string>> GetResourcesAsync(CultureInfo culture, bool includeParent)
         {
             _logger.LogDebug($"Retrieving all culture resources for culture={culture}.");
 
@@ -109,7 +109,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework
             return resultCulture;
         }
 
-        IDictionary<string, string> GetResources(CultureObject cultureEntity)
+        IReadOnlyDictionary<string, string> GetResources(CultureObject cultureEntity)
         {
             var resources = cultureEntity.Resources;
 

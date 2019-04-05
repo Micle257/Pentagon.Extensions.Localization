@@ -17,7 +17,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework
         {
             services.AddOptions();
 
-            services.Configure<JsonLocalizationOptions>(configure);
+            services.Configure<JsonLocalizationOptions>(configure ?? (o => { }));
 
             return services.AddCultureCache()
                            .AddJsonCultureStore()

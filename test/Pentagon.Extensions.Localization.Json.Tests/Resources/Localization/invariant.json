@@ -1,0 +1,18 @@
+{
+  "culture": null,
+  "format": "tree",
+  "resources": [
+    {
+      "key": "first",
+      "value": "1"
+    },
+    {
+      "key": "second",
+      "value": "2"
+    },
+    {
+      "key": "shortcut",
+      "value" : "KKKK"
+    }
+  ] 
+}

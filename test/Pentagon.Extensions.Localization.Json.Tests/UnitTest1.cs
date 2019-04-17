@@ -39,7 +39,7 @@ namespace Pentagon.Extensions.Localization.Json.Tests
         {
             JsonLocalization.LoadJsonFromDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources\\Localization"));
 
-            var resource = JsonLocalization.GetCachedResource(CultureInfo.GetCultureInfo("cs"), "shortcut", false);
+            var resource = JsonLocalization.GetCachedResource(CultureInfo.GetCultureInfo("sk-SK"), "ShortCut", true);
 
 
         }

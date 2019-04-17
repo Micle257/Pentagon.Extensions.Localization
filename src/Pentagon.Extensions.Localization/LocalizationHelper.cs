@@ -50,6 +50,17 @@ namespace Pentagon.Extensions.Localization {
 
             if (resources == null)
             {
+                var invariantResources = await allResources(LocalizationConstants.Invariant).ConfigureAwait(false);
+
+                if (invariantResources != null)
+                {
+                    return new CultureObject
+                                                  {
+                                                          Name = LocalizationConstants.Invariant,
+                                                          Resources = invariantResources.ToDictionary(a => a.Key, a => a.Value)
+                                                  };
+                }
+
                 return null;
             }
 

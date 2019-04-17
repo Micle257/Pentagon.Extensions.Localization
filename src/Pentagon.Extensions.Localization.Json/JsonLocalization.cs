@@ -64,7 +64,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework
 
             var data = GetJsonFiles(folderPath);
 
-            foreach (var (name, _, content) in data)
+            foreach (var (name, path, content) in data)
             {
                 var json = JsonHelpers.Deserialize<RootObjectJson>(content);
 
@@ -88,19 +88,21 @@ namespace Pentagon.Extensions.Localization.EntityFramework
         public static string GetCachedResource(CultureInfo culture, string key, bool includeParentResources)
         {
             var allResources = _cachedJsons.Values
-                                        .ToDictionary(a => a.Culture,
-                                                      a=> a.Resources
-                                                           .Where(b => string.Equals(b.Key,
-                                                                                               key,
-                                                                                               StringComparison.InvariantCultureIgnoreCase))
-                                                           .ToDictionary(b => b.Key, b => b.Value));
+                                           .ToDictionary(a => a.Culture,
+                                                         a => a.Resources
+                                                               .Where(b => string.Equals(b.Key,
+                                                                                         key,
+                                                                                         StringComparison.OrdinalIgnoreCase)).ToDictionary(av => av.Key, av => av.Value));
 
             var obj = LocalizationHelper.GetCultureObject(culture, k => allResources.ContainsKey(k) ? allResources[k] : null);
+
+            if (obj == null)
+                return null;
 
             var resources = LocalizationHelper.GetResources(obj, includeParentResources);
 
             return resources.Select(a => new KeyValuePair<string, string>(a.Key, a.Value))
-                            .FirstOrDefault(a => string.Equals(a.Key, key, StringComparison.InvariantCultureIgnoreCase))
+                            .FirstOrDefault(a => string.Equals(a.Key, key, StringComparison.OrdinalIgnoreCase))
                             .Value;
         }
 
@@ -111,6 +113,9 @@ namespace Pentagon.Extensions.Localization.EntityFramework
                                            .ToDictionary(a => a.Culture, a => a.Resources.ToDictionary(b => b.Key, b => b.Value));
 
             var obj = LocalizationHelper.GetCultureObject(culture, k => allResources.ContainsKey(k) ? allResources[k] : null);
+
+            if (obj == null)
+                return new Dictionary<string, string>();
 
             var resources = LocalizationHelper.GetResources(obj, includeParentResources);
 

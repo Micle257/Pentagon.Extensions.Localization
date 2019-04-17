@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pentagon.Extensions.Localization.EntityFramework", "src\Pentagon.Extensions.Localization.EntityFrameworkCore\Pentagon.Extensions.Localization.EntityFramework.csproj", "{58C97B22-9487-4710-B8F7-5F9A9EFBA979}"
 EndProject
@@ -18,6 +18,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{224BE50E-E447-4FF0-B4E6-9321CDEEBA0E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pentagon.Extensions.Localization.Json.Tests", "test\Pentagon.Extensions.Localization.Json.Tests\Pentagon.Extensions.Localization.Json.Tests.csproj", "{D8116756-B806-4053-823B-D502D774EA69}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{B1F28265-14AF-4D68-8730-BB139593D7D6}"
+	ProjectSection(SolutionItems) = preProject
+		build.sh = build.sh
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

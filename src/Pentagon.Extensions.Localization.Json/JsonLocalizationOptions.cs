@@ -11,5 +11,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
     public class JsonLocalizationOptions
     {
         public string ResourceFolder { get; set; } = $"Resources{Path.DirectorySeparatorChar}Localization";
+
+        public bool UseEmbedded { get; set; } = false;
     }
 }

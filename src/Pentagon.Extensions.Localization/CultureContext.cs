@@ -10,6 +10,7 @@ namespace Pentagon.Extensions.Localization
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using Helpers;
     using Interfaces;
     using JetBrains.Annotations;
 
@@ -29,10 +30,10 @@ namespace Pentagon.Extensions.Localization
 
             cultures = cultures ?? uiCultures;
 
-            if (!CultureHelpers.TryParse(uiCultures, out var ui))
+            if (!CultureHelper.TryParse(uiCultures, out var ui))
                 ui = CultureInfo.CurrentUICulture;
 
-            if (!CultureHelpers.TryParse(cultures, out var format))
+            if (!CultureHelper.TryParse(cultures, out var format))
                 format = CultureInfo.CurrentCulture;
 
             UICulture = ui;
@@ -43,7 +44,7 @@ namespace Pentagon.Extensions.Localization
         {
             foreach (var culture in cultures)
             {
-                if (CultureHelpers.TryParse(culture, out var ui))
+                if (CultureHelper.TryParse(culture, out var ui))
                     yield return ui;
             }
         }

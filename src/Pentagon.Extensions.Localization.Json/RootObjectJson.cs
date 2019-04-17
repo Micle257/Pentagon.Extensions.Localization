@@ -7,20 +7,8 @@
 namespace Pentagon.Extensions.Localization.Json.Json
 {
     using System.Collections.Generic;
-    using System.ComponentModel;
     using IO.Json;
     using Newtonsoft.Json;
-
-    public enum JsonFormat
-    {
-        Unspecified,
-
-        [Description("keyValue")]
-        KeyValue,
-
-        [Description("tree")]
-        Tree
-    }
 
     public class RootObjectJson
     {

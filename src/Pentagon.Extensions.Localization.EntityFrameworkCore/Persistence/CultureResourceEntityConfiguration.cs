@@ -27,6 +27,9 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
 
             b.ToTable((options.TablePrefix ?? "") + (options.CultureResourceTableName ?? DatabaseObjectNames.CultureResource));
 
+            b.Property(a => a.Id)
+             .HasColumnName("CultureResourceID");
+
             b.Property(a => a.Value)
              .HasMaxLength(1024);
 

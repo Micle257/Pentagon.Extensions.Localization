@@ -10,7 +10,6 @@ namespace Pentagon.Extensions.Localization.Json.Tests
     using EntityFramework.Persistence;
     using Interfaces;
     using Json;
-    using Microsoft.Extensions.Caching.Memory;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging.Abstractions;
 

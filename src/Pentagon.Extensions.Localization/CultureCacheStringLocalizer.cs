@@ -4,6 +4,10 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Pentagon.Extensions.Localization.Json.Tests")]
+
 namespace Pentagon.Extensions.Localization
 {
     using System;

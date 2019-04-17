@@ -10,7 +10,7 @@ namespace Pentagon.Extensions.Localization
 
     public class CultureObject
     {
-        public bool IsInvariant => Name == null;
+        public bool IsInvariant => Name == null || Name == LocalizationConstants.Invariant;
 
         public string Name { get; set; }
 

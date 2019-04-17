@@ -6,6 +6,7 @@
 
 namespace Pentagon.Extensions.Localization
 {
+    using EntityFramework;
     using Interfaces;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -19,6 +20,7 @@ namespace Pentagon.Extensions.Localization
             services.AddScoped<ICultureContext, CultureContext>();
 
             services.Add(ServiceDescriptor.Describe(typeof(ILocalizationCache), typeof(LocalizationCache), ServiceLifetime.Transient));
+            services.Add(ServiceDescriptor.Describe(typeof(ICultureManager), typeof(CultureManager), ServiceLifetime.Scoped));
 
             return services;
         }

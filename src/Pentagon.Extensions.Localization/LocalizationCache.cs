@@ -10,6 +10,7 @@ namespace Pentagon.Extensions.Localization
     using System.Collections.Generic;
     using System.Globalization;
     using System.Threading.Tasks;
+    using Helpers;
     using Interfaces;
     using JetBrains.Annotations;
     using Microsoft.Extensions.Caching.Memory;
@@ -110,7 +111,7 @@ namespace Pentagon.Extensions.Localization
         /// <inheritdoc />
         public async Task<IDictionary<string, string>> GetAllAsync(string cultureName, Func<string, bool> keyPredicate = null)
         {
-            if (!CultureHelpers.TryParse(cultureName, out var culture))
+            if (!CultureHelper.TryParse(cultureName, out var culture))
             {
                 throw new FormatException($"Culture is invalid '{cultureName}'.");
             }

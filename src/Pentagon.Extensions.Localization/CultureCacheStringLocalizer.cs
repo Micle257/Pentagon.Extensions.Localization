@@ -4,6 +4,10 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Pentagon.Extensions.Localization.Json.Tests")]
+
 namespace Pentagon.Extensions.Localization
 {
     using System;
@@ -12,7 +16,7 @@ namespace Pentagon.Extensions.Localization
     using System.Linq;
     using Interfaces;
     using Microsoft.Extensions.Localization;
-    
+
     public class CultureCacheStringLocalizer : IStringLocalizer
     {
         readonly ILocalizationCache _cultureCacheManager;
@@ -57,7 +61,7 @@ namespace Pentagon.Extensions.Localization
         /// <param name="culture"> The <see cref="CultureInfo" /> to use. </param>
         /// <returns> A culture-specific <see cref="CultureCacheStringLocalizer" />. </returns>
         public IStringLocalizer WithCulture(CultureInfo culture)
-            => new CultureCacheStringLocalizer(_cultureCacheManager) {Culture = culture};
+            => new CultureCacheStringLocalizer(_cultureCacheManager) { Culture = culture };
 
         /// <inheritdoc />
         public virtual IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures) =>

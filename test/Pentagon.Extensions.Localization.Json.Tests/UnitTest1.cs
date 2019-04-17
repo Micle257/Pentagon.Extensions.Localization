@@ -3,11 +3,13 @@ using Xunit;
 
 namespace Pentagon.Extensions.Localization.Json.Tests
 {
+    using System.Collections.Generic;
     using System.Globalization;
+    using System.IO;
     using EntityFramework;
     using EntityFramework.Persistence;
     using Interfaces;
-    using Microsoft.Extensions.Caching.Memory;
+    using Json;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging.Abstractions;
 
@@ -30,6 +32,16 @@ namespace Pentagon.Extensions.Localization.Json.Tests
             var cache = di.GetService<ILocalizationCache>();
 
             var mss = cache["first"];
+        }
+
+        [Fact]
+        public void Test2()
+        {
+            JsonLocalization.LoadJsonFromDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources\\Localization"));
+
+            var resource = JsonLocalization.GetCachedResource(CultureInfo.GetCultureInfo("cs"), "shortcut", false);
+
+
         }
     }
 }

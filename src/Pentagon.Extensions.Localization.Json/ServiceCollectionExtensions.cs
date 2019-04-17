@@ -20,20 +20,12 @@ namespace Pentagon.Extensions.Localization.EntityFramework
             services.Configure<JsonLocalizationOptions>(configure ?? (o => { }));
 
             return services.AddCultureCache()
-                           .AddJsonCultureStore()
-                           .AddJsonCultureManager();
+                           .AddJsonCultureStore();
         }
 
         public static IServiceCollection AddJsonCultureStore(this IServiceCollection services)
         {
             services.Add(ServiceDescriptor.Describe(typeof(ICultureStore), typeof(CultureStore), ServiceLifetime.Scoped));
-
-            return services;
-        }
-
-        public static IServiceCollection AddJsonCultureManager(this IServiceCollection services)
-        {
-            services.Add(ServiceDescriptor.Describe(typeof(ICultureManager), typeof(CultureManager), ServiceLifetime.Scoped));
 
             return services;
         }

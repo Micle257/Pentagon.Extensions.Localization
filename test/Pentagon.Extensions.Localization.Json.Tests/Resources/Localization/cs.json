@@ -1,9 +1,9 @@
-{
+﻿{
   "format": "keyValue",
   "resources": [
     {
       "key": "first",
-      "value": "Prvni1"
+      "value": "Prvn1+ěščřžýáíé=íéúůťň"
     },
     {
       "key": "second",

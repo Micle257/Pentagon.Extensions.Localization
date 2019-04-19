@@ -28,8 +28,17 @@
     <PackageReference Include="Pentagon.EntityFrameworkCore" Version="2.3.0" PrivateAssets="All" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Pentagon.Extensions.Localization\Pentagon.Extensions.Localization.csproj" />
-  </ItemGroup>
+  <Choose>
+    <When Condition="'$(Configuration)'=='Debug'">
+      <ItemGroup>
+        <ProjectReference Include="..\Pentagon.Extensions.Localization\Pentagon.Extensions.Localization.csproj" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <PackageReference Include="Pentagon.Extensions.Localization" Version="0.4.3" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
 </Project>

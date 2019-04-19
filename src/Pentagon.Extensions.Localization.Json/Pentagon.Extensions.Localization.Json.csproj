@@ -20,11 +20,32 @@
 
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2019.1.1" PrivateAssets="All" />
-    <PackageReference Include="Pentagon.Extensions.IO.Json" Version="1.1.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Pentagon.Extensions.Localization\Pentagon.Extensions.Localization.csproj" />
-  </ItemGroup>
+  <Choose>
+    <When Condition="'$(SolutionPath)'=='C:\Users\Michal\Source\Pentagon.All.sln' AND '$(Configuration)'=='Debug'">
+      <ItemGroup>
+        <ProjectReference Include="..\..\..\Pentagon.Extensions.IO\src\Pentagon.Extensions.IO\Pentagon.Extensions.IO.csproj" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <PackageReference Include="Pentagon.Extensions.IO" Version="1.5.0" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+
+  <Choose>
+    <When Condition="'$(Configuration)'=='Debug'">
+      <ItemGroup>
+        <ProjectReference Include="..\Pentagon.Extensions.Localization\Pentagon.Extensions.Localization.csproj" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <PackageReference Include="Pentagon.Extensions.Localization" Version="0.4.3" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
 </Project>

@@ -43,7 +43,7 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <PackageReference Include="Pentagon.Extensions.Localization" Version="0.4.3" />
+        <PackageReference Include="Pentagon.Extensions.Localization" Version="1.5.0" />
       </ItemGroup>
     </Otherwise>
   </Choose>

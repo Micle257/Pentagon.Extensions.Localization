@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pentagon.Extensions.Localization.EntityFramework", "src\Pentagon.Extensions.Localization.EntityFrameworkCore\Pentagon.Extensions.Localization.EntityFramework.csproj", "{58C97B22-9487-4710-B8F7-5F9A9EFBA979}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pentagon.Extensions.Localization", "src\Pentagon.Extensions.Localization\Pentagon.Extensions.Localization.csproj", "{08901ED2-6D06-471C-A3EE-73772DF419D5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pentagon.Extensions.Localization.Json", "src\Pentagon.Extensions.Localization.Json\Pentagon.Extensions.Localization.Json.csproj", "{7C96B9E7-F710-4608-BEC7-CA03DCC5BE49}"
@@ -18,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{B1F2
 		deploy.sh = deploy.sh
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pentagon.Extensions.Localization.EntityFramework", "src\Pentagon.Extensions.Localization.EntityFramework\Pentagon.Extensions.Localization.EntityFramework.csproj", "{807F63B4-3410-44C5-8728-FB1A20E73A4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,18 +28,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{58C97B22-9487-4710-B8F7-5F9A9EFBA979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{58C97B22-9487-4710-B8F7-5F9A9EFBA979}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{58C97B22-9487-4710-B8F7-5F9A9EFBA979}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{58C97B22-9487-4710-B8F7-5F9A9EFBA979}.Debug|x64.Build.0 = Debug|Any CPU
-		{58C97B22-9487-4710-B8F7-5F9A9EFBA979}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{58C97B22-9487-4710-B8F7-5F9A9EFBA979}.Debug|x86.Build.0 = Debug|Any CPU
-		{58C97B22-9487-4710-B8F7-5F9A9EFBA979}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{58C97B22-9487-4710-B8F7-5F9A9EFBA979}.Release|Any CPU.Build.0 = Release|Any CPU
-		{58C97B22-9487-4710-B8F7-5F9A9EFBA979}.Release|x64.ActiveCfg = Release|Any CPU
-		{58C97B22-9487-4710-B8F7-5F9A9EFBA979}.Release|x64.Build.0 = Release|Any CPU
-		{58C97B22-9487-4710-B8F7-5F9A9EFBA979}.Release|x86.ActiveCfg = Release|Any CPU
-		{58C97B22-9487-4710-B8F7-5F9A9EFBA979}.Release|x86.Build.0 = Release|Any CPU
 		{08901ED2-6D06-471C-A3EE-73772DF419D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{08901ED2-6D06-471C-A3EE-73772DF419D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08901ED2-6D06-471C-A3EE-73772DF419D5}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -76,6 +64,18 @@ Global
 		{D8116756-B806-4053-823B-D502D774EA69}.Release|x64.Build.0 = Release|Any CPU
 		{D8116756-B806-4053-823B-D502D774EA69}.Release|x86.ActiveCfg = Release|Any CPU
 		{D8116756-B806-4053-823B-D502D774EA69}.Release|x86.Build.0 = Release|Any CPU
+		{807F63B4-3410-44C5-8728-FB1A20E73A4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{807F63B4-3410-44C5-8728-FB1A20E73A4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{807F63B4-3410-44C5-8728-FB1A20E73A4B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{807F63B4-3410-44C5-8728-FB1A20E73A4B}.Debug|x64.Build.0 = Debug|Any CPU
+		{807F63B4-3410-44C5-8728-FB1A20E73A4B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{807F63B4-3410-44C5-8728-FB1A20E73A4B}.Debug|x86.Build.0 = Debug|Any CPU
+		{807F63B4-3410-44C5-8728-FB1A20E73A4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{807F63B4-3410-44C5-8728-FB1A20E73A4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{807F63B4-3410-44C5-8728-FB1A20E73A4B}.Release|x64.ActiveCfg = Release|Any CPU
+		{807F63B4-3410-44C5-8728-FB1A20E73A4B}.Release|x64.Build.0 = Release|Any CPU
+		{807F63B4-3410-44C5-8728-FB1A20E73A4B}.Release|x86.ActiveCfg = Release|Any CPU
+		{807F63B4-3410-44C5-8728-FB1A20E73A4B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

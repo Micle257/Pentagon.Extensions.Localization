@@ -4,26 +4,28 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Extensions.Localization.EntityFramework
+namespace Pentagon.Extensions.Localization.Json
 {
     using System;
     using Interfaces;
+    using JetBrains.Annotations;
     using Microsoft.Extensions.DependencyInjection;
-    using Persistence;
 
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddJsonCultureLocalization(this IServiceCollection services, Action<JsonLocalizationOptions> configure = null)
+        [NotNull]
+        public static IServiceCollection AddJsonCultureLocalization([NotNull] this IServiceCollection services, Action<JsonLocalizationOptions> configure = null)
         {
             services.AddOptions();
 
             services.Configure<JsonLocalizationOptions>(configure ?? (o => { }));
 
-            return services.AddCultureCache()
+            return services.AddCulture()
                            .AddJsonCultureStore();
         }
 
-        public static IServiceCollection AddJsonCultureStore(this IServiceCollection services)
+        [NotNull]
+        static IServiceCollection AddJsonCultureStore([NotNull] this IServiceCollection services)
         {
             services.Add(ServiceDescriptor.Describe(typeof(ICultureStore), typeof(CultureStore), ServiceLifetime.Scoped));
 

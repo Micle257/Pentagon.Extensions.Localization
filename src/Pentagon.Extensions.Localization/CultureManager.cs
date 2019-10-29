@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Extensions.Localization.EntityFramework
+namespace Pentagon.Extensions.Localization
 {
     using System.Collections.Generic;
     using System.Globalization;

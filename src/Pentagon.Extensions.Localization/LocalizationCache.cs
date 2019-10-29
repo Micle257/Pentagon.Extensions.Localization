@@ -16,6 +16,7 @@ namespace Pentagon.Extensions.Localization
     using Microsoft.Extensions.Caching.Memory;
     using Microsoft.Extensions.Options;
     using Options;
+    using Threading;
 
     public class LocalizationCache : ILocalizationCache
     {
@@ -86,7 +87,7 @@ namespace Pentagon.Extensions.Localization
         {
             if (_options.IncludeParentResources)
             {
-                var all = _manager.GetResourcesAsync(_culture).Result;
+                var all = _manager.GetResourcesAsync(_culture).AwaitSynchronously();
 
                 foreach (var pair in all)
                 {
@@ -97,7 +98,7 @@ namespace Pentagon.Extensions.Localization
             }
             else
             {
-                var value = _store.GetResourceAsync(_culture.Name, key)?.Result.Value;
+                var value = _store.GetResourceAsync(_culture.Name, key)?.AwaitSynchronously().Value;
 
                 if (value == null)
                     return null;

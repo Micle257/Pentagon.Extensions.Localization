@@ -1,7 +1,7 @@
 namespace Pentagon.Extensions.Localization.EntityFramework.Entities {
     using System;
     using EntityFrameworkCore;
-    using EntityFrameworkCore.Abstractions.Entities;
+    using EntityFrameworkCore.Interfaces.Entities;
 
     /// <summary> Represents an EF entity for table 'CultureResource'. </summary>
     public class CultureResourceEntity : Entity,

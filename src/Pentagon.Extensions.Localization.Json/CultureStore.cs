@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
+namespace Pentagon.Extensions.Localization.Json
 {
     using System;
     using System.Collections.Concurrent;
@@ -12,13 +12,11 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
+    using System.Threading;
     using System.Threading.Tasks;
     using Helpers;
     using Interfaces;
-    using IO.Json;
     using JetBrains.Annotations;
-    using Json.Json;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
@@ -62,7 +60,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         }
 
         /// <inheritdoc />
-        public Task<KeyValuePair<string, string>> GetResourceAsync(string cultureName, string key)
+        public Task<KeyValuePair<string, string>> GetResourceAsync(string cultureName, string key, CancellationToken cancellationToken)
         {
             var res = Jsons.Where(a => a.Culture == cultureName)
                            .SelectMany(a => a.Resources)
@@ -72,7 +70,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         }
 
         /// <inheritdoc />
-        public Task<IReadOnlyDictionary<string, string>> GetAllResourcesAsync(string cultureName)
+        public Task<IReadOnlyDictionary<string, string>> GetAllResourcesAsync(string cultureName, CancellationToken cancellationToken)
         {
             var res = Jsons.Where(a => a.Culture == cultureName)
                            .SelectMany(a => a.Resources)
@@ -83,7 +81,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         }
 
         /// <inheritdoc />
-        public Task<IReadOnlyList<CultureInfo>> GetAvailableCulturesAsync()
+        public Task<IReadOnlyList<CultureInfo>> GetAvailableCulturesAsync(CancellationToken cancellationToken)
         {
             var result = new List<CultureInfo>();
 
@@ -105,7 +103,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         }
 
         /// <inheritdoc />
-        public Task<CultureInfo> GetCultureAsync(string name)
+        public Task<CultureInfo> GetCultureAsync(string name, CancellationToken cancellationToken)
         {
             var res = Jsons.Select(a => a.Culture)
                            .Where(a => a == name);

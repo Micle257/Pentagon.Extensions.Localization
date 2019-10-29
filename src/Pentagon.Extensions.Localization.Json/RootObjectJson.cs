@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Extensions.Localization.Json.Json
+namespace Pentagon.Extensions.Localization.Json
 {
     using System.Collections.Generic;
     using IO.Json;

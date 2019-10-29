@@ -7,7 +7,7 @@
 namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
 {
     using Entities;
-    using EntityFrameworkCore.Abstractions;
+    using EntityFrameworkCore.Interfaces;
     using Microsoft.EntityFrameworkCore;
 
     public interface ICultureApplicationContext : IApplicationContext

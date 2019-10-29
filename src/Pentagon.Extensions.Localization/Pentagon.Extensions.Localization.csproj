@@ -8,7 +8,7 @@
     <Copyright>Copyright (c) Michal Pokorný. All Rights Reserved.</Copyright>
     <Company />
     <LangVersion>8.0</LangVersion>
-    <PackageProjectUrl>https://github.com/Micle257/Pentagon.Extensions.Logging</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Micle257/Pentagon.Extensions.Localization</PackageProjectUrl>
     <PackageTags>dotnet;library;localization;</PackageTags>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

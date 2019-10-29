@@ -14,7 +14,7 @@ namespace Pentagon.Extensions.Localization
     using Interfaces;
     using JetBrains.Annotations;
 
-    public class CultureContext : ICultureContext
+    public class CultureContext : ICultureContext, ICultureContextWriter
     {
         /// <inheritdoc />
         public CultureInfo UICulture { get; private set; }

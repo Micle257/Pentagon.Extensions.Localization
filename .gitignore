@@ -1,6 +1,7 @@
 .vs
-obj
-bin
-*.DotSettings.user
 build
 debug
+obj
+bin
+*.user
+nuget.config

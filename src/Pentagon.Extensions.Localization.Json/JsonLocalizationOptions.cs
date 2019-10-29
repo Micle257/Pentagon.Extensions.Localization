@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
+namespace Pentagon.Extensions.Localization.Json
 {
     using System.IO;
 

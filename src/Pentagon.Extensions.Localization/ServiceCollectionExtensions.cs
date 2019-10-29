@@ -6,13 +6,14 @@
 
 namespace Pentagon.Extensions.Localization
 {
-    using EntityFramework;
     using Interfaces;
+    using JetBrains.Annotations;
     using Microsoft.Extensions.DependencyInjection;
 
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddCultureCache(this IServiceCollection services)
+        [NotNull]
+        public static IServiceCollection AddCulture([NotNull] this IServiceCollection services)
         {
             services.AddMemoryCache()
                     .AddOptions();

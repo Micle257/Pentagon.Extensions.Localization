@@ -6,10 +6,7 @@ namespace Pentagon.Extensions.Localization.Json.Tests
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
-    using EntityFramework;
-    using EntityFramework.Persistence;
     using Interfaces;
-    using Json;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging.Abstractions;
 
@@ -25,7 +22,7 @@ namespace Pentagon.Extensions.Localization.Json.Tests
 
             var di = se.BuildServiceProvider();
 
-            var context = di.GetService<ICultureContext>();
+            var context = di.GetService<ICultureContextWriter>();
 
             context.SetLanguage("cs-CZ");
 

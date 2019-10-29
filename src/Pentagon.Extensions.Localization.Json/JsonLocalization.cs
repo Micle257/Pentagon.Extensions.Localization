@@ -4,7 +4,7 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-namespace Pentagon.Extensions.Localization.EntityFramework
+namespace Pentagon.Extensions.Localization.Json
 {
     using System;
     using System.Collections.Concurrent;
@@ -16,7 +16,6 @@ namespace Pentagon.Extensions.Localization.EntityFramework
     using Helpers;
     using IO.Json;
     using JetBrains.Annotations;
-    using Json.Json;
 
     public static class JsonLocalization
     {

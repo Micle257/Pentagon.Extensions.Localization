@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<assembly name="Pentagon.Extensions.Localization.EntityFramework">
+  <member name="M:Pentagon.Extensions.Localization.EntityFramework.Persistence.CultureService.#ctor(Microsoft.Extensions.Logging.ILogger{Pentagon.Extensions.Localization.EntityFramework.Persistence.CultureService},Pentagon.EntityFrameworkCore.Interfaces.Stores.IStore{Pentagon.Extensions.Localization.EntityFramework.Entities.CultureEntity},Pentagon.EntityFrameworkCore.Interfaces.Stores.IStore{Pentagon.Extensions.Localization.EntityFramework.Entities.CultureResourceEntity})">
+    <parameter name="logger">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+    <parameter name="store">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+    <parameter name="resourceStore">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Localization.EntityFramework.ServiceCollectionExtensions.AddEFLocalizationCulture(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="services">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+  <member name="M:Pentagon.Extensions.Localization.EntityFramework.ServiceCollectionExtensions.AddEFLocalizationCultureCached(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+    <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    <parameter name="services">
+      <attribute ctor="M:JetBrains.Annotations.NotNullAttribute.#ctor" />
+    </parameter>
+  </member>
+</assembly>

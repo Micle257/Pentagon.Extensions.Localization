@@ -1,4 +1,4 @@
-namespace Pentagon.Extensions.Localization.Json.Json {
+namespace Pentagon.Extensions.Localization.Json {
     using Newtonsoft.Json;
 
     public class ResourceJson

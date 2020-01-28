@@ -35,27 +35,13 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.1"  />
     <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="3.1.1"/>
+    <PackageReference Include="Pentagon.Common" Version="3.4.0" />
+    <PackageReference Include="Pentagon.EntityFrameworkCore.Abstractions" Version="3.4.0" />
+    <PackageReference Include="Pentagon.EntityFrameworkCore" Version="3.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Pentagon.Extensions.Localization\Pentagon.Extensions.Localization.csproj" />
   </ItemGroup>
-
-  <Choose>
-    <When Condition="'$(SolutionPath)'=='C:\src\GitHub\Pentagon.GitHub.sln' AND '$(Configuration)'=='Debug'">
-      <ItemGroup>
-        <ProjectReference Include="..\..\..\Pentagon.Common\src\Pentagon.Common\Pentagon.Common.csproj" />
-        <ProjectReference Include="..\..\..\Pentagon.EntityFrameworkCore\src\Pentagon.EntityFrameworkCore.Abstractions\Pentagon.EntityFrameworkCore.Abstractions.csproj" />
-        <ProjectReference Include="..\..\..\Pentagon.EntityFrameworkCore\src\Pentagon.EntityFrameworkCore\Pentagon.EntityFrameworkCore.csproj" />
-      </ItemGroup>
-    </When>
-    <Otherwise>
-      <ItemGroup>
-        <PackageReference Include="Pentagon.Common" Version="3.4.0" />
-        <PackageReference Include="Pentagon.EntityFrameworkCore.Abstractions" Version="3.4.0" />
-        <PackageReference Include="Pentagon.EntityFrameworkCore" Version="3.4.0" />
-      </ItemGroup>
-    </Otherwise>
-  </Choose>
 
 </Project>

@@ -16,6 +16,7 @@ namespace Pentagon.Extensions.Localization
     using System.Linq;
     using Interfaces;
     using Microsoft.Extensions.Localization;
+    using Threading;
 
     public class CultureCacheStringLocalizer : IStringLocalizer
     {
@@ -76,7 +77,7 @@ namespace Pentagon.Extensions.Localization
             if (culture == null)
                 throw new ArgumentNullException(nameof(culture));
 
-            var cache = _cultureCacheManager.GetAllAsync(culture.Name).Result;
+            var cache = _cultureCacheManager.GetAllAsync(culture.Name).AwaitSynchronously();
 
             var resourceNames = cache.Select(a => a.Key);
 

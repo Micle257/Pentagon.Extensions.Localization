@@ -6,13 +6,15 @@
 
 namespace Pentagon.Extensions.Localization.Interfaces
 {
-    using System.Collections.Generic;
     using System.Globalization;
+    using JetBrains.Annotations;
 
     public interface ICultureContext
     {
+        [NotNull]
         CultureInfo UICulture { get; }
 
+        [NotNull]
         CultureInfo Culture { get; }
     }
 }

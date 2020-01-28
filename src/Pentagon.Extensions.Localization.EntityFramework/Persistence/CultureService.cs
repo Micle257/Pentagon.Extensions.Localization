@@ -125,7 +125,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         /// <inheritdoc />
         public async Task<KeyValuePair<string, string>> GetResourceAsync(string cultureName, string key, CancellationToken cancellationToken)
         {
-            var res = await GetOneAsync(cultureName, key, cancellationToken);
+            var res = await GetOneAsync(cultureName, key, cancellationToken).ConfigureAwait(false);
 
             return new KeyValuePair<string, string>(res.Key, res.Value);
         }
@@ -133,7 +133,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         /// <inheritdoc />
         public async Task<IReadOnlyDictionary<string, string>> GetAllResourcesAsync(string cultureName, CancellationToken cancellationToken)
         {
-            var cultureResourceEntities = await GetAllAsync(cultureName, cancellationToken);
+            var cultureResourceEntities = await GetAllAsync(cultureName, cancellationToken).ConfigureAwait(false);
 
             return cultureResourceEntities.ToDictionary(a => a.Key, a => a.Value);
         }
@@ -141,7 +141,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         /// <inheritdoc />
         public async Task<IReadOnlyList<CultureInfo>> GetAvailableCulturesAsync(CancellationToken cancellationToken)
         {
-            var cultures = await GetCulturesAsync(cancellationToken);
+            var cultures = await GetCulturesAsync(cancellationToken).ConfigureAwait(false);
 
             return cultures.Select(a => CultureInfo.GetCultureInfo(a.Name)).ToList();
         }
@@ -149,7 +149,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         /// <inheritdoc />
         async Task<CultureInfo> ICultureStore.GetCultureAsync(string name, CancellationToken cancellationToken)
         {
-            var culture = await GetCultureAsync(name, cancellationToken);
+            var culture = await GetCultureAsync(name, cancellationToken).ConfigureAwait(false);
 
             var info = CultureInfo.GetCultureInfo(culture.Name);
 

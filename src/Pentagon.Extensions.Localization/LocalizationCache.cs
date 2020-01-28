@@ -22,35 +22,41 @@ namespace Pentagon.Extensions.Localization
     {
         const string CacheKeyPrefix = "LOCALIZATION_";
 
+        [NotNull]
         readonly ICultureStore _store;
+
+        [NotNull]
         readonly IMemoryCache _cache;
-        readonly ICultureContext _context;
+
+        [NotNull]
         readonly ICultureManager _manager;
+
         readonly MemoryCacheEntryOptions _cacheOptions;
 
-        CultureInfo _culture;
         readonly CultureCacheOptions _options;
 
-        public LocalizationCache(ICultureStore store,
-                                 IMemoryCache cache,
-                                 ICultureContext context,
-                                 ICultureManager manager,
+        [NotNull]
+        CultureInfo _culture;
+
+        public LocalizationCache([NotNull] ICultureStore store,
+                                 [NotNull] IMemoryCache cache,
+                                 [NotNull] ICultureContext context,
+                                 [NotNull] ICultureManager manager,
                                  IOptionsSnapshot<CultureCacheOptions> optionsSnapshot)
         {
-            _store = store;
-            _cache = cache;
-            _context = context;
-            _manager = manager;
+            _store   = store ?? throw new ArgumentNullException(nameof(store));
+            _cache   = cache ?? throw new ArgumentNullException(nameof(cache));
+            _manager = manager ?? throw new ArgumentNullException(nameof(manager));
 
             _options = optionsSnapshot?.Value ?? new CultureCacheOptions();
             _cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(_options.CacheLifespanInSeconds));
+                   .SetAbsoluteExpiration(TimeSpan.FromSeconds(_options.CacheLifespanInSeconds));
 
             _culture = context.UICulture;
         }
 
         /// <inheritdoc />
-        public string this[[NotNull] string key]
+        public string this[string key]
         {
             get
             {
@@ -64,7 +70,7 @@ namespace Pentagon.Extensions.Localization
         }
 
         /// <inheritdoc />
-        public string this[[NotNull] string key, [NotNull] params object[] formatArguments]
+        public string this[string key, params object[] formatArguments]
         {
             get
             {
@@ -90,34 +96,28 @@ namespace Pentagon.Extensions.Localization
                 var all = _manager.GetResourcesAsync(_culture).AwaitSynchronously();
 
                 foreach (var pair in all)
-                {
                     _cache.Set(GetKeyName(pair.Key), pair.Value, _cacheOptions);
-                }
 
                 return _cache.Get<string>(GetKeyName(key));
             }
-            else
-            {
-                var value = _store.GetResourceAsync(_culture.Name, key)?.AwaitSynchronously().Value;
 
-                if (value == null)
-                    return null;
+            var value = _store.GetResourceAsync(_culture.Name, key)?.AwaitSynchronously().Value;
 
-                _cache.Set(GetKeyName(key),value , _cacheOptions);
+            if (value == null)
+                return null;
 
-                return value;
-            }
+            _cache.Set(GetKeyName(key), value, _cacheOptions);
+
+            return value;
         }
 
         /// <inheritdoc />
         public async Task<IDictionary<string, string>> GetAllAsync(string cultureName, Func<string, bool> keyPredicate = null)
         {
             if (!CultureHelper.TryParse(cultureName, out var culture))
-            {
                 throw new FormatException($"Culture is invalid '{cultureName}'.");
-            }
 
-            var all = await _manager.GetResourcesAsync(culture, _options.IncludeParentResources);
+            var all = await _manager.GetResourcesAsync(culture, _options != null && _options.IncludeParentResources).ConfigureAwait(false);
 
             var result = new Dictionary<string, string>();
 
@@ -126,10 +126,7 @@ namespace Pentagon.Extensions.Localization
                 if (keyPredicate?.Invoke(entity.Key) == false)
                     continue;
 
-                var inCacheValue = _cache.Get<string>(GetKeyName(entity.Key));
-
-                if (inCacheValue == null)
-                    inCacheValue = _cache.Set(GetKeyName(entity.Key), entity.Value, _cacheOptions);
+                var inCacheValue = _cache.Get<string>(GetKeyName(entity.Key)) ?? _cache.Set(GetKeyName(entity.Key), entity.Value, _cacheOptions);
 
                 result.Add(entity.Key, inCacheValue);
             }

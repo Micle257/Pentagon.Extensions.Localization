@@ -14,10 +14,11 @@ namespace Pentagon.Extensions.Localization.EntityFramework
     using Microsoft.Extensions.DependencyInjection.Extensions;
     using Persistence;
 
+    [PublicAPI]
     public static class ServiceCollectionExtensions
     {
         [NotNull]
-        public static IServiceCollection AddEFCultureLocalization([NotNull] this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+        public static IServiceCollection AddEfCultureLocalization([NotNull] this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         {
             services.AddCulture();
 

@@ -30,7 +30,7 @@ namespace Pentagon.Extensions.Localization
         {
             _logger.LogDebug($"Retrieving all culture resources for culture={culture}.");
 
-            var cultureEntity = await GetCultureAsync(culture);
+            var cultureEntity = await GetCultureAsync(culture).ConfigureAwait(false);
 
             return LocalizationHelper.GetResources(cultureEntity, includeParentResources);
         }
@@ -41,13 +41,12 @@ namespace Pentagon.Extensions.Localization
             if (culture == null)
                 culture = CultureInfo.CurrentUICulture;
 
-            var cultureEntity = (await _cultureStore.GetAvailableCulturesAsync()).FirstOrDefault(a => Equals(a, culture));
+            var cultureEntity = (await _cultureStore.GetAvailableCulturesAsync().ConfigureAwait(false)).FirstOrDefault(a => Equals(a, culture));
 
             if (cultureEntity == null)
                 return (null);
 
-          return await LocalizationHelper.GetCultureObjectAsync(culture,
-                                                           async key => (await _cultureStore.GetAllResourcesAsync(key).ConfigureAwait(false)).ToDictionary(a => a.Key, a => a.Value));
+            return await LocalizationHelper.GetCultureObjectAsync(culture, async key => (await _cultureStore.GetAllResourcesAsync(key).ConfigureAwait(false)).ToDictionary(a => a.Key, a => a.Value)).ConfigureAwait(false);
         }
     }
 }

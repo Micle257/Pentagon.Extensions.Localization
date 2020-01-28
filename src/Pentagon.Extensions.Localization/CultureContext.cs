@@ -9,18 +9,16 @@ namespace Pentagon.Extensions.Localization
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
     using Helpers;
     using Interfaces;
-    using JetBrains.Annotations;
 
     public class CultureContext : ICultureContext, ICultureContextWriter
     {
         /// <inheritdoc />
-        public CultureInfo UICulture { get; private set; }
+        public CultureInfo UICulture { get; private set; } = CultureInfo.CurrentUICulture;
 
         /// <inheritdoc />
-        public CultureInfo Culture { get; private set; }
+        public CultureInfo Culture { get; private set; } = CultureInfo.CurrentCulture;
         
         /// <inheritdoc />
         public void SetLanguage(string uiCultures, string cultures = null)

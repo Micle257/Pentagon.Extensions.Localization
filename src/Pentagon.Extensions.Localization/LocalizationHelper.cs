@@ -10,6 +10,7 @@ namespace Pentagon.Extensions.Localization {
     using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
+    using Threading;
 
     public static class LocalizationHelper
     {
@@ -41,7 +42,7 @@ namespace Pentagon.Extensions.Localization {
 
         public static CultureObject GetCultureObject(CultureInfo culture, Func<string, IDictionary<string, string>> allResources)
         {
-            return GetCultureObjectAsync(culture, s => Task.FromResult(allResources(s))).Result;
+            return GetCultureObjectAsync(culture, s => Task.FromResult(allResources(s))).AwaitSynchronously();
         }
 
         public static async Task<CultureObject> GetCultureObjectAsync(CultureInfo culture, Func<string, Task<IDictionary<string, string>>> allResources)

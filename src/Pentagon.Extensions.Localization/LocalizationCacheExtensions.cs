@@ -30,5 +30,25 @@
         {
             return cache.GetValue(valueDefinition.Key, new object[] { formatValue1, formatValue2, formatValue3, formatValue4 });
         }
+
+        public static string Create<T1, T2, T3, T4, T5>(this ILocalizationCache cache, LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5> valueDefinition, T1 formatValue1, T2 formatValue2, T3 formatValue3, T4 formatValue4, T5 formatValue5)
+        {
+            return cache.GetValue(valueDefinition.Key, new object[] { formatValue1, formatValue2, formatValue3, formatValue4, formatValue5 });
+        }
+
+        public static string Create<T1, T2, T3, T4, T5, T6>(this ILocalizationCache cache, LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5, T6> valueDefinition, T1 formatValue1, T2 formatValue2, T3 formatValue3, T4 formatValue4, T5 formatValue5, T6 formatValue6)
+        {
+            return cache.GetValue(valueDefinition.Key, new object[] { formatValue1, formatValue2, formatValue3, formatValue4, formatValue5, formatValue6 });
+        }
+
+        public static string Create<T1, T2, T3, T4, T5, T6, T7>(this ILocalizationCache cache, LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5, T6, T7> valueDefinition, T1 formatValue1, T2 formatValue2, T3 formatValue3, T4 formatValue4, T5 formatValue5, T6 formatValue6, T7 formatValue7)
+        {
+            return cache.GetValue(valueDefinition.Key, new object[] { formatValue1, formatValue2, formatValue3, formatValue4, formatValue5, formatValue6, formatValue7 });
+        }
+
+        public static string Create<T1, T2, T3, T4, T5, T6, T7, T8>(this ILocalizationCache cache, LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5, T6, T7, T8> valueDefinition, T1 formatValue1, T2 formatValue2, T3 formatValue3, T4 formatValue4, T5 formatValue5, T6 formatValue6, T7 formatValue7, T8 formatValue8)
+        {
+            return cache.GetValue(valueDefinition.Key, new object[] { formatValue1, formatValue2, formatValue3, formatValue4, formatValue5, formatValue6, formatValue7, formatValue8 });
+        }
     }
 }

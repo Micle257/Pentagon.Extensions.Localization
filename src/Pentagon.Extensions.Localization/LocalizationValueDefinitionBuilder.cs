@@ -158,6 +158,46 @@ namespace Pentagon.Extensions.Localization
             return new LocalizationFormattedValueDefinition<T1, T2, T3, T4>(key);
         }
 
+        public static LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5> FromConvention<T1, T2, T3, T4, T5>([NotNull] Expression<Func<LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5>>> selector)
+        {
+            if (selector == null)
+                throw new ArgumentNullException(nameof(selector));
+
+            var key = LocalizationDefinitionConvention.GetKey(selector.Body);
+
+            return new LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5>(key);
+        }
+
+        public static LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5, T6> FromConvention<T1, T2, T3, T4, T5, T6>([NotNull] Expression<Func<LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5, T6>>> selector)
+        {
+            if (selector == null)
+                throw new ArgumentNullException(nameof(selector));
+
+            var key = LocalizationDefinitionConvention.GetKey(selector.Body);
+
+            return new LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5, T6>(key);
+        }
+
+        public static LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5, T6, T7> FromConvention<T1, T2, T3, T4, T5, T6, T7>([NotNull] Expression<Func<LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5, T6, T7>>> selector)
+        {
+            if (selector == null)
+                throw new ArgumentNullException(nameof(selector));
+
+            var key = LocalizationDefinitionConvention.GetKey(selector.Body);
+
+            return new LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5, T6, T7>(key);
+        }
+
+        public static LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5, T6, T7, T8> FromConvention<T1, T2, T3, T4, T5, T6, T7, T8>([NotNull] Expression<Func<LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5, T6, T7, T8>>> selector)
+        {
+            if (selector == null)
+                throw new ArgumentNullException(nameof(selector));
+
+            var key = LocalizationDefinitionConvention.GetKey(selector.Body);
+
+            return new LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5, T6, T7, T8>(key);
+        }
+
         internal static object FromConvention(string key, [NotNull] FieldInfo fieldInfo)
         {
             var fieldInfoFieldType = fieldInfo.FieldType;
@@ -176,6 +216,14 @@ namespace Pentagon.Extensions.Localization
                     return GetInstance(typeof(LocalizationFormattedValueDefinition<,,>).MakeGenericType(genericParams));
                 case 4:
                     return GetInstance(typeof(LocalizationFormattedValueDefinition<,,,>).MakeGenericType(genericParams));
+                case 5:
+                    return GetInstance(typeof(LocalizationFormattedValueDefinition<,,,,>).MakeGenericType(genericParams));
+                case 6:
+                    return GetInstance(typeof(LocalizationFormattedValueDefinition<,,,,,>).MakeGenericType(genericParams));
+                case 7:
+                    return GetInstance(typeof(LocalizationFormattedValueDefinition<,,,,,,>).MakeGenericType(genericParams));
+                case 8:
+                    return GetInstance(typeof(LocalizationFormattedValueDefinition<,,,,,,,>).MakeGenericType(genericParams));
             }
 
             return null;

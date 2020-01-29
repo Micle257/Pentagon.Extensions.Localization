@@ -36,4 +36,24 @@
     {
         public LocalizationFormattedValueDefinition([NotNull] string key) : base(key, typeof(T1), typeof(T2), typeof(T3), typeof(T4)) { }
     }
+
+    public class LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5> : LocalizationValueDefinition
+    {
+        public LocalizationFormattedValueDefinition([NotNull] string key) : base(key, typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5)) { }
+    }
+
+    public class LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5, T6> : LocalizationValueDefinition
+    {
+        public LocalizationFormattedValueDefinition([NotNull] string key) : base(key, typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6)) { }
+    }
+
+    public class LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5, T6, T7> : LocalizationValueDefinition
+    {
+        public LocalizationFormattedValueDefinition([NotNull] string key) : base(key, typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7)) { }
+    }
+
+    public class LocalizationFormattedValueDefinition<T1, T2, T3, T4, T5, T6, T7, T8> : LocalizationValueDefinition
+    {
+        public LocalizationFormattedValueDefinition([NotNull] string key) : base(key, typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8)) { }
+    }
 }

@@ -117,9 +117,11 @@ namespace Pentagon.Extensions.Localization
                 var declaringType = type.DeclaringType;
 
                 if (declaringType != null)
+                {
                     Declere(declaringType, builder);
 
-                builder.Append(type.Name + ".");
+                    builder.Append(type.Name + ".");
+                }
 
                 return builder;
             }

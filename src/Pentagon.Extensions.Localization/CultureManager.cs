@@ -25,7 +25,7 @@ namespace Pentagon.Extensions.Localization
         public CultureManager(ILogger<CultureManager> logger,
                               [NotNull] ICultureStore cultureStore)
         {
-            _logger = logger;
+            _logger       = logger;
             _cultureStore = cultureStore;
         }
 
@@ -36,7 +36,7 @@ namespace Pentagon.Extensions.Localization
 
             var cultureEntity = await GetCultureAsync(culture).ConfigureAwait(false);
 
-            _logger?.LogDebug("Culture object found: {Culture}", cultureEntity.ToString());
+            _logger?.LogDebug("Culture object found: {Culture}", cultureEntity?.ToString());
 
             return LocalizationHelper.GetResources(cultureEntity, includeParentResources);
         }
@@ -50,9 +50,12 @@ namespace Pentagon.Extensions.Localization
             var cultureEntity = (await _cultureStore.GetAvailableCulturesAsync().ConfigureAwait(false)).FirstOrDefault(a => a.Equals(culture));
 
             if (cultureEntity == null)
-                return (null);
+                return new CultureObject(LocalizationConstants.Invariant, null);
 
-            return await LocalizationHelper.GetCultureObjectAsync(culture, async key => (await _cultureStore.GetAllResourcesAsync(key).ConfigureAwait(false)).ToDictionary(a => a.Key, a => a.Value)).ConfigureAwait(false);
+            return await LocalizationHelper.GetCultureObjectAsync(culture,
+                                                                  async key => (await _cultureStore.GetAllResourcesAsync(key).ConfigureAwait(false))
+                                                                         .ToDictionary(a => a.Key, a => a.Value))
+                                           .ConfigureAwait(false);
         }
     }
 }

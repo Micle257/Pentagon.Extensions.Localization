@@ -15,6 +15,8 @@ namespace Pentagon.Extensions.Localization
         [NotNull]
         public static IServiceCollection AddCulture([NotNull] this IServiceCollection services)
         {
+            LocalizationDefinitionConvention.InitializeLocalizationDefinition();
+
             services.AddMemoryCache()
                     .AddOptions();
 

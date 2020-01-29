@@ -22,6 +22,8 @@ namespace Pentagon.Extensions.Localization
     {
         const string CacheKeyPrefix = "LOCALIZATION_";
 
+        const string LocalizationNotFoundPrefix = "LOCALIZATION_NOT_FOUND__";
+
         [NotNull]
         readonly ICultureStore _store;
 
@@ -31,8 +33,10 @@ namespace Pentagon.Extensions.Localization
         [NotNull]
         readonly ICultureManager _manager;
 
+        [NotNull]
         readonly MemoryCacheEntryOptions _cacheOptions;
 
+        [NotNull]
         readonly CultureCacheOptions _options;
 
         [NotNull]
@@ -56,16 +60,39 @@ namespace Pentagon.Extensions.Localization
         }
 
         /// <inheritdoc />
-        public string this[string key]
+        public string this[string key] => GetValue(key);
+
+        /// <inheritdoc />
+        public string GetValue(string key, params object[] formatArguments)
         {
-            get
-            {
-                if (key == null)
-                    throw new ArgumentNullException(nameof(key));
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
 
-                var value = _cache.Get<string>(GetKeyName(key)) ?? ForceCacheUpdate(key);
+            var value = _cache.Get<string>(GetKeyName(key)) ?? ForceCacheUpdate(key);
 
+            if (value == null)
+                return GetNotFoundValue(key);
+
+            if (formatArguments == null || formatArguments.Length == 0)
                 return value;
+
+            var formattedValue = string.Format(value, formatArguments);
+
+            return formattedValue;
+        }
+
+        string GetNotFoundValue([NotNull] string key)
+        {
+            switch (_options.IndicateLocalizationValueNotFound)
+            {
+                case LocalizationNotFoundBehavior.Exception:
+                    throw new LocalizationNotFoundException(key, _culture);
+                case LocalizationNotFoundBehavior.Key:
+                    return key;
+                case LocalizationNotFoundBehavior.KeyWithNotFoundIndication:
+                    return LocalizationNotFoundPrefix + key;
+                default:
+                    return null;
             }
         }
 
@@ -80,12 +107,7 @@ namespace Pentagon.Extensions.Localization
                 if (formatArguments == null)
                     throw new ArgumentNullException(nameof(formatArguments));
 
-                var value = this[key];
-
-                if (value != null)
-                    value = string.Format(value, formatArguments);
-
-                return value;
+                return GetValue(key, formatArguments);
             }
         }
 
@@ -104,7 +126,7 @@ namespace Pentagon.Extensions.Localization
             var value = _store.GetResourceAsync(_culture.Name, key)?.AwaitSynchronously().Value;
 
             if (value == null)
-                return null;
+                return GetNotFoundValue(key);
 
             _cache.Set(GetKeyName(key), value, _cacheOptions);
 

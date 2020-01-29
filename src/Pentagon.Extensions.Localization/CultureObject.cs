@@ -7,7 +7,9 @@
 namespace Pentagon.Extensions.Localization
 {
     using System.Collections.Generic;
+    using JetBrains.Annotations;
 
+    [PublicAPI]
     public class CultureObject
     {
         public bool IsInvariant => Name == null || Name == LocalizationConstants.Invariant;

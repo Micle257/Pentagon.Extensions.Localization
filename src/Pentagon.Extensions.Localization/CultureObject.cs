@@ -12,23 +12,12 @@ namespace Pentagon.Extensions.Localization
     [PublicAPI]
     public class CultureObject
     {
-        public CultureObject(string name, IDictionary<string,string> resources, CultureObject parent = null)
-        {
-            Name = name;
-            Resources = (IReadOnlyDictionary<string, string>) (resources ?? new Dictionary<string, string>());
-            ParentCulture = parent;
-        }
-
         public bool IsInvariant => Name == null || Name == LocalizationConstants.Invariant;
 
-        public string Name { get;  }
+        public string Name { get; set; }
 
-        [NotNull]
-        public IReadOnlyDictionary<string, string> Resources { get; } 
+        public IReadOnlyDictionary<string, string> Resources { get; set; } = new Dictionary<string, string>();
 
-        public CultureObject ParentCulture { get; }
-
-        /// <inheritdoc />
-        public override string ToString() => $"{(IsInvariant ? "Invariant" : Name)} culture{(ParentCulture == null ? "" : $" (parent: {ParentCulture}")}";
+        public CultureObject ParentCulture { get; set; }
     }
 }

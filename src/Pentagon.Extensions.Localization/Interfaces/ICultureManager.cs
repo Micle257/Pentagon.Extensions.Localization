@@ -9,14 +9,11 @@ namespace Pentagon.Extensions.Localization.Interfaces
     using System.Collections.Generic;
     using System.Globalization;
     using System.Threading.Tasks;
-    using JetBrains.Annotations;
 
     public interface ICultureManager
     {
-        [NotNull]
-        Task<IReadOnlyDictionary<string, string>> GetResourcesAsync([NotNull] CultureInfo culture, bool includeParentResources = true);
+        Task<IReadOnlyDictionary<string, string>> GetResourcesAsync(CultureInfo culture, bool includeParentResources = true);
 
-        [NotNull]
-        Task<CultureObject> GetCultureAsync([NotNull] CultureInfo culture);
+        Task<CultureObject> GetCultureAsync(CultureInfo culture);
     }
 }

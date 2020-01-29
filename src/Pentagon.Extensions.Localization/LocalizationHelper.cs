@@ -10,16 +10,12 @@ namespace Pentagon.Extensions.Localization {
     using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
-    using JetBrains.Annotations;
     using Threading;
 
     public static class LocalizationHelper
     {
-        public static IReadOnlyDictionary<string, string> GetResources([NotNull] CultureObject cultureEntity, bool includeParent = false)
+        public static IReadOnlyDictionary<string, string> GetResources(CultureObject cultureEntity, bool includeParent = false)
         {
-            if (cultureEntity == null)
-                throw new ArgumentNullException(nameof(cultureEntity));
-
             var resources = cultureEntity.Resources;
 
             if (!includeParent)
@@ -59,57 +55,80 @@ namespace Pentagon.Extensions.Localization {
 
                 if (invariantResources != null)
                 {
-                    return new CultureObject(LocalizationConstants.Invariant, invariantResources.ToDictionary(a => a.Key, a => a.Value));
+                    return new CultureObject
+                                                  {
+                                                          Name = LocalizationConstants.Invariant,
+                                                          Resources = invariantResources.ToDictionary(a => a.Key, a => a.Value)
+                                                  };
                 }
 
                 return null;
             }
 
-            CultureObject parentCulture = null;
-
+            var resultCulture = new CultureObject
+            {
+                Name = culture.Name,
+                Resources = resources.ToDictionary(a=>a.Key,a=>a.Value)
+            };
 
             // if culture is country specific
             if (!culture.IsNeutralCulture)
             {
                 var neutralCulture = culture.Parent;
 
+#if DEBUG
                 Debug.Assert(neutralCulture.IsNeutralCulture);
+#endif
 
                 var parentCultureResources = await allResources(neutralCulture.Name).ConfigureAwait(false);
 
                 if (parentCultureResources != null)
                 {
+                    resultCulture.ParentCulture = new CultureObject
+                    {
+                        Name = neutralCulture.Name,
+                        Resources = parentCultureResources.ToDictionary(a => a.Key, a => a.Value)
+                    };
+
                     var invariantCulture = neutralCulture.Parent;
 
+                    #if DEBUG
                     Debug.Assert(Equals(invariantCulture, invariantCulture.Parent));
+#endif
 
                     var invariantResources = await allResources(LocalizationConstants.Invariant).ConfigureAwait(false);
 
-                    CultureObject parentOfParentCulture = null;
-
                     if (invariantResources != null)
                     {
-                        parentOfParentCulture = new CultureObject(LocalizationConstants.Invariant, invariantResources.ToDictionary(a => a.Key, a => a.Value));
-                    };
-
-                    parentCulture = new CultureObject(neutralCulture.Name, parentCultureResources.ToDictionary(a => a.Key, a => a.Value), parentOfParentCulture);
+                        resultCulture.ParentCulture.ParentCulture = new CultureObject
+                        {
+                            Name = LocalizationConstants.Invariant,
+                            Resources = invariantResources.ToDictionary(a => a.Key, a => a.Value)
+                        };
+                    }
                 }
             }
             else
             {
                 var invariantCulture = culture.Parent;
 
+                // Assert: if (!Equals(invariantCulture, invariantCulture.Parent))
+
+#if DEBUG
                 Debug.Assert(Equals(invariantCulture, invariantCulture.Parent));
+#endif
 
                 var invariantResources = await allResources(LocalizationConstants.Invariant).ConfigureAwait(false);
 
                 if (invariantResources != null)
                 {
-                    parentCulture = new CultureObject(LocalizationConstants.Invariant, invariantResources.ToDictionary(a => a.Key, a => a.Value));
+                    resultCulture.ParentCulture = new CultureObject
+                                                                {
+                                                                        Name = LocalizationConstants.Invariant,
+                                                                        Resources = invariantResources.ToDictionary(a => a.Key, a => a.Value)
+                                                                };
                 }
             }
-
-            var resultCulture = new CultureObject(culture.Name, resources.ToDictionary(a => a.Key, a => a.Value), parentCulture);
 
             return resultCulture;
         }

@@ -35,8 +35,9 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
                             });
 
             builder.Entity<CultureResourceEntity>()
-                   .HasData(definitions.Select(a => new CultureResourceEntity
+                   .HasData(definitions.Select((a,i) => new CultureResourceEntity
                                                     {
+                                                            Id = i+1,
                                                             CultureId = 1,
                                                             Key = a.Key,
                                                             Value = a.Key

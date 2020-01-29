@@ -59,7 +59,7 @@ namespace Pentagon.Extensions.Localization.Tests
         {
             var definition = Local.Nest1.Nest2.NoParam;
 
-            Assert.Equal("Local.Nest1.Nest2.NoParam", definition.Key);
+            Assert.Equal("Nest1.Nest2.NoParam", definition.Key);
             Assert.Equal(0, definition.FormatTypes.Length);
         }
 
@@ -68,7 +68,7 @@ namespace Pentagon.Extensions.Localization.Tests
         {
             var definition = Local.Nest1.Nest2.OneParam;
 
-            Assert.Equal("Local.Nest1.Nest2.OneParam", definition.Key);
+            Assert.Equal("Nest1.Nest2.OneParam", definition.Key);
             Assert.Equal(1, definition.FormatTypes.Length);
         }
 
@@ -77,7 +77,7 @@ namespace Pentagon.Extensions.Localization.Tests
         {
             var definition = Local.TwoParam;
 
-            Assert.Equal("Local.TwoParam", definition.Key);
+            Assert.Equal("TwoParam", definition.Key);
             Assert.Equal(2, definition.FormatTypes.Length);
         }
 
@@ -86,7 +86,7 @@ namespace Pentagon.Extensions.Localization.Tests
         {
             var definition = Local.Nest1.ThreeParam;
 
-            Assert.Equal("Local.Nest1.ThreeParam", definition.Key);
+            Assert.Equal("Nest1.ThreeParam", definition.Key);
             Assert.Equal(3, definition.FormatTypes.Length);
         }
 
@@ -95,7 +95,7 @@ namespace Pentagon.Extensions.Localization.Tests
         {
             var definition = Local.Nest1.Nest2.FourParam;
 
-            Assert.Equal("Local.Nest1.Nest2.FourParam", definition.Key);
+            Assert.Equal("Nest1.Nest2.FourParam", definition.Key);
             Assert.Equal(4, definition.FormatTypes.Length);
         }
 
@@ -104,7 +104,7 @@ namespace Pentagon.Extensions.Localization.Tests
         {
             var definition = LocalMorePure.Nest1.Nest2.FourParam;
 
-            Assert.Equal("LocalMorePure.Nest1.Nest2.FourParam", definition.Key);
+            Assert.Equal("Nest1.Nest2.FourParam", definition.Key);
             Assert.Equal(4, definition.FormatTypes.Length);
         }
     }

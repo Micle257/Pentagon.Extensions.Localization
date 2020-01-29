@@ -41,6 +41,12 @@ namespace Pentagon.Extensions.Localization.Tests
         public static LocalizationFormattedValueDefinition<int, string> TwoParam;
     }
 
+    [LocalizationDefinition]
+    public static class LocalMorePure2
+    {
+        public static LocalizationValueDefinition TwoParam;
+    }
+
     public class LocalizationValueDefinitionBuilderTests
     {
         public LocalizationValueDefinitionBuilderTests()

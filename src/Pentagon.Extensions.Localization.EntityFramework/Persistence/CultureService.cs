@@ -143,7 +143,15 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         {
             var cultures = await GetCulturesAsync(cancellationToken).ConfigureAwait(false);
 
-            return cultures.Select(a => CultureInfo.GetCultureInfo(a.Name)).ToList();
+            return cultures.Select(a => NormalizeCulture(a.Name)).ToList();
+        }
+
+        CultureInfo NormalizeCulture(string name)
+        {
+            if (name == null || name == LocalizationConstants.Invariant)
+                return CultureInfo.InvariantCulture;
+
+            return CultureInfo.GetCultureInfo(name);
         }
 
         /// <inheritdoc />
@@ -151,9 +159,7 @@ namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
         {
             var culture = await GetCultureAsync(name, cancellationToken).ConfigureAwait(false);
 
-            var info = CultureInfo.GetCultureInfo(culture.Name);
-
-            return info;
+            return NormalizeCulture(culture.Name);
         }
     }
 }

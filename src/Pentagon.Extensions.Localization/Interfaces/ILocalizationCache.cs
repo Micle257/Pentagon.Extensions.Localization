@@ -21,12 +21,12 @@ namespace Pentagon.Extensions.Localization.Interfaces
 
         Task<IDictionary<string, string>> GetAllAsync(string cultureName, Func<string, bool> keyPredicate = null);
 
-        string ForceCacheUpdate([NotNull] string key);
+        Task<string> ForceCacheUpdateAsync([NotNull] string key);
 
         bool Contains([NotNull] string key);
 
         ILocalizationCache WithCulture([NotNull] CultureInfo culture);
 
-        string GetValue([NotNull] string key, params object[] formatArguments);
+        ValueTask<string> GetValueAsync([NotNull] string key, params object[] formatArguments);
     }
 }

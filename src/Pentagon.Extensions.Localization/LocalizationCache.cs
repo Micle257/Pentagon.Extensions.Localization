@@ -60,15 +60,16 @@ namespace Pentagon.Extensions.Localization
         }
 
         /// <inheritdoc />
-        public string this[string key] => GetValue(key);
+        public string this[string key] => GetValueAsync(key).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <inheritdoc />
-        public string GetValue(string key, params object[] formatArguments)
+        public async ValueTask<string> GetValueAsync(string key, params object[] formatArguments)
         {
             if (key == null)
                 throw new ArgumentNullException(nameof(key));
 
-            var value = _cache.Get<string>(GetKeyName(key)) ?? ForceCacheUpdate(key);
+            // value task because of hot-path to cached values
+            var value = _cache.Get<string>(GetKeyName(key)) ?? await ForceCacheUpdateAsync(key).ConfigureAwait(false);
 
             if (value == null)
                 return GetNotFoundValue(key);
@@ -107,15 +108,15 @@ namespace Pentagon.Extensions.Localization
                 if (formatArguments == null)
                     throw new ArgumentNullException(nameof(formatArguments));
 
-                return GetValue(key, formatArguments);
+                return GetValueAsync(key, formatArguments).ConfigureAwait(false).GetAwaiter().GetResult();
             }
         }
 
-        public string ForceCacheUpdate(string key)
+        public async Task<string> ForceCacheUpdateAsync(string key)
         {
             if (_options.IncludeParentResources)
             {
-                var all = _manager.GetResourcesAsync(_culture).AwaitSynchronously();
+                var all = await _manager.GetResourcesAsync(_culture).ConfigureAwait(false);
 
                 foreach (var pair in all)
                     _cache.Set(GetKeyName(pair.Key), pair.Value, _cacheOptions);
@@ -123,7 +124,7 @@ namespace Pentagon.Extensions.Localization
                 return _cache.Get<string>(GetKeyName(key));
             }
 
-            var value = _store.GetResourceAsync(_culture.Name, key)?.AwaitSynchronously().Value;
+            var value = (await _store.GetResourceAsync(_culture.Name, key).ConfigureAwait(false)).Value;
 
             if (value == null)
                 return GetNotFoundValue(key);

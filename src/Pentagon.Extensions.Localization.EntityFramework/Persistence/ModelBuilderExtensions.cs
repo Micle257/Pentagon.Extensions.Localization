@@ -7,10 +7,33 @@
 namespace Pentagon.Extensions.Localization.EntityFramework.Persistence
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using Collections.Tree;
     using Entities;
     using Microsoft.EntityFrameworkCore;
     using Options;
+
+    public static class CultureDataSeedHelper
+    {
+        public static string GetInsertScript<T>(int cultureId, string table)
+        {
+            var hier = LocalizationDefinitionConvention.GetInstanceHierarchy(typeof(T));
+
+            var keys = hier.Where(a => a.IsLeafNode()).Select(a => a.Value.Definition.Key);
+
+            var commands = new List<string>();
+
+            foreach (var key in keys)
+            {
+                var sql = $"INSERT INTO {table} (CultureId, Key, Value) VALUES ({cultureId}, {key}, NULL)";
+
+                commands.Add(sql);
+            }
+
+            return string.Join(Environment.NewLine, commands);
+        }
+    }
 
     public static class ModelBuilderExtensions
     {

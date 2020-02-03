@@ -29,7 +29,7 @@ namespace Pentagon.Extensions.Localization {
 
             if (cultureEntity.ParentCulture != null)
             {
-                var innerResources = GetResources(cultureEntity.ParentCulture);
+                var innerResources = GetResources(cultureEntity.ParentCulture, includeParent);
 
                 var missingKeys = innerResources.Select(a => a.Key).Except(resources.Select(a => a.Key));
 

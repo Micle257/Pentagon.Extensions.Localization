@@ -39,9 +39,9 @@
   </ItemGroup>
 
   <Choose>
-    <When Condition="'$(SolutionPath)'=='C:\src\GitHub\Pentagon.GitHub.sln' AND '$(Configuration)'=='Debug'">
+    <When Condition="'$(Configuration)'=='Debug'">
       <ItemGroup>
-        <ProjectReference Include="..\..\..\Pentagon.Common\src\Pentagon.Common\Pentagon.Common.csproj" />
+        <ProjectReference Include="$(SolutionDir)\lib\Pentagon.Common\src\Pentagon.Common\Pentagon.Common.csproj" />
       </ItemGroup>
     </When>
     <Otherwise>
